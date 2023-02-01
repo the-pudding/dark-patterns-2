@@ -14,7 +14,7 @@
         <div class="section">
             {#if block == "intro"}
                 {#each sectionBlock.text as sectionBlockText}
-                    <p>{sectionBlockText.value}</p>
+                    <p>{@html sectionBlockText.value}</p>
                 {/each}
             {:else if block == "title"}
                 <p>{sectionBlock.text}</p>
@@ -26,7 +26,7 @@
 
                 {#if sectionBlock["type"] == "body"}
                     {#each sectionBlock.text as sectionBlockText}
-                            <p>{sectionBlockText.value}</p>
+                            <p>{@html sectionBlockText.value}</p>
                     {/each}
                 {/if}
             {/if}
