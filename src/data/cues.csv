@@ -1,0 +1,12 @@
+id,sprite,dupe,delay,once,cycle,loop,duration,start_x,end_x,start_y,end_y,start_r,end_r,z,flip
+first,character,,,,walk,,2400,-2,1,1,1,,,10,
+first,character,,,,idle,,,1,1,1,1,,,10,
+first,floor,,,,,,,0,0,-0.65,-0.65,,,,
+second,character,,,,coin,,,1,1,1,1,,,10,
+second,floor,,,,,,,0,0,-0.65,-0.65,,,,
+third,character,,,,walk,,,1,1,1,1,,,10,
+third,floor,,,,,TRUE,20000,0,-10,-0.65,-0.65,,,,
+fourth,character,,,,idle,,,1,1,1,1,,,10,
+fourth,floor,,,,,,,0,0,-0.65,-0.65,,,,
+fourth,Big-Boss,,,,Big-Boss,,2400,5,6,1,2,,,1,
+fourth,Big-Boss,,,,Big-Boss,,2400,6,5,2,1,,,1,

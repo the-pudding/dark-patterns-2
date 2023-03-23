@@ -6,6 +6,7 @@
 	font-stretch: normal;
 	font-display: swap;
 }
+
 @font-face {
 	font-family: "Inter";
 	src: url("https://pudding.cool/assets/fonts/inter/Inter-Bold.woff2") format("woff2");
@@ -15,6 +16,23 @@
 	font-display: swap;
 }
 
+@font-face {
+	font-family: "Lyon";
+	src: url("https://pudding.cool/2020/07/song-decay/assets/fonts/lyon/LyonText-Regular-Web.woff2") format("woff2");
+	font-weight: 400;
+	font-style: normal;
+	font-stretch: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Lyon Display";
+	src: url("https://pudding.cool/2020/07/song-decay/assets/fonts/lyon/LyonDisplay-Regular-Web.woff2") format("woff2");
+	font-weight: 400;
+	font-style: normal;
+	font-stretch: normal;
+	font-display: swap;
+}
 
 @font-face {
 	font-family: "Inter";
@@ -32,4 +50,23 @@
 	font-style: normal;
 	font-stretch: normal;
 	font-display: swap;
+}
+  
+  @font-face {
+	  font-family: "CozetteVector";
+	  src: url("https://pudding.cool/assets/fonts/cozette/CozetteVector.woff2") format("woff2");
+	  font-weight: 400;
+	  font-style: normal;
+	  font-display: swap;
+	  font-stretch: normal;
+  }
+
+
+  @font-face {
+	font-family: "8Bit";
+	src: url('https://fonts.cdnfonts.com/s/19901/8-BIT WONDER.woff') format("woff");
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+	font-stretch: normal;
 }

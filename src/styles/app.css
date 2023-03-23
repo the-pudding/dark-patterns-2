@@ -7,8 +7,10 @@
 :root {
 	/* font */
 	--sans: "Inter", -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
-	--serif: "Inter", Iowan Old Style, Times New Roman, Times, serif;
-	--mono: Menlo, Consolas, Monaco, monospace;
+	--serif: "Lyon", Iowan Old Style, Times New Roman, Times, serif;
+	--serif-display: "Lyon Display", Iowan Old Style, Times New Roman, Times, serif;
+	--mono: "CozetteVector", Menlo, Consolas, Monaco, "Courier New", monospace;
+
 
 	/* z-index */
 	--z-bottom: -100;
@@ -88,4 +90,11 @@ h5 {
 
 h6 {
 	font-size: var(--20px, 20px);
+}
+
+
+.big {
+	font-family: var(--serif-display);
+	font-size: 24px;
+	-webkit-font-smoothing: antialiased;
 }

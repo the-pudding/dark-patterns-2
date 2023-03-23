@@ -4,21 +4,52 @@
 
 <header>
 	<div class="wordmark">
-		<a href="https://pudding.cool" aria-label="The Pudding">{@html wordmark}</a>
+		<a href="https://pudding.cool" aria-label="The Pudding">
+			The Pudding
+		</a>
+		<p class="workmark-sub">PRESENTS</p>
 	</div>
 </header>
 
 <style>
+
+	header {
+		position: absolute;
+		left: 0;
+		right: 0;
+		margin: 0 auto;
+	}
+
 	.wordmark {
 		max-width: 10em;
 		margin: 0 auto;
+		font-size: 36px;
 		padding: 1em 0;
+		font-family: var(--mono);
+		opacity: .6;
+	}
+
+	.workmark-sub {
+		font-size: 16px;
+		font-family: var(--mono);
+		letter-spacing: 2px;
+		text-align: center;
+		margin: 0 auto;
+		text-rendering: optimizeLegibility;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+
 	}
 
 	.wordmark a {
 		border: none;
 		display: block;
-		color: var(--color-fg);
+		color: black;
+		text-align: center;
+		text-rendering: optimizeLegibility;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		font-size: 28px;
 	}
 
 	.wordmark a:hover {

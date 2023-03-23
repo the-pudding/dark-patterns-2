@@ -26,7 +26,7 @@ mark {
 }
 
 a {
-	color: var(--color-link, blue);
+	color: inherit;
 	text-decoration: none;
 	border-bottom: 1px solid currentColor;
 }

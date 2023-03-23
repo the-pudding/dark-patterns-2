@@ -33,10 +33,13 @@
 		"vite": "^4.0.4",
 		"vite-plugin-svgstring": "^1.0.0"
 	},
-	"type": "module",
 	"engines": {
 		"node": ">= 16.13.0"
 	},
+	"type": "module",
 	"browserslist": "> 0.5%, last 4 versions, not ie <= 11, not ie_mob <= 11",
-	"subdirectory": "svelte-starter"
+	"subdirectory": "svelte-starter",
+	"dependencies": {
+		"spritesmith": "^3.4.1"
+	}
 }
