@@ -41,7 +41,7 @@
     on:exit={() => (stickyVisible = false)}
 >
     <div class="sprite-sandbox">
-        <div class="sprite-container {key}" in:fade={{ duration: 1000 }} out:fade={{ duration: 1000 }}>
+        <div class="sprite-container">
             {#each sprites as [key, spriteSteps] (key)}
                 <SpriteDark text={bubbleText} id={id} steps={spriteSteps} name={key.split("_")[0]} data={getSpriteData(key)} />
             {/each}
@@ -61,14 +61,14 @@
             {#if i == 1}
                 <div class="company-scroll">
                     {#each copy["companies"].slice(0,5) as image}
-                        <div class="company-image" style="margin-left:{Math.random()*100}%; width:{image.w}px"><img src="{base}/assets/{image.id}.png" /></div>
+                        <div class="company-image" style="margin-left:{Math.random()*100}%; width:{image.w}px"><img src="assets/{image.id}.png" /></div>
                     {/each}
                 </div>
             {/if}
             {#if i == 2}
                 <div class="company-scroll">
                     {#each copy["companies"].slice(5,copy["companies"].length) as image}
-                        <div class="company-image" style="margin-left:{Math.random()*50}%; width:{image.w}px"><img src="{base}/assets/{image.id}.png" /></div>
+                        <div class="company-image" style="margin-left:{Math.random()*50}%; width:{image.w}px"><img src="assets/{image.id}.png" /></div>
                     {/each}
                 </div>
             {/if}
