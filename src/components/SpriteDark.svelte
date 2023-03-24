@@ -1,5 +1,5 @@
 <script>
-import { base, assets } from "$app/paths";
+import { base } from "$app/paths";
 import { onMount, getContext } from "svelte";
 import { tweened } from "svelte/motion";
 import runWithCancel from "$utils/runWithCancel.js";
@@ -14,7 +14,7 @@ export let text;
 const { scale, BASE } = getContext("Game");
 
 
-$: console.log("base",base, "assets", assets)
+$: console.log("base",base)
 
 // let scale = 1.2;
 // let BASE = 32*1.2;
@@ -47,7 +47,7 @@ $: x = `${$tween.x * $scale * BASE}px`;
 $: y = `${$tween.y * $scale * BASE * -1}px`;
 $: s = flip ? -1 : 1;
 
-$: bgImage = `${base}/assets/${name}.png`;
+$: bgImage = `assets/${name}.png`;
 $: bgPos = `${$scale * frame.x * -1}px ${$scale * frame.y * -1}px`;
 $: bgSize = `calc(100% * ${data.cols}) calc(100% * ${data.rows})`;
 $: transform = `translate3d(${x}, ${y}, 0) scaleX(${s})`;
