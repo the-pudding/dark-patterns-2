@@ -14,7 +14,7 @@ export let text;
 const { scale, BASE } = getContext("Game");
 
 
-$: console.log(data)
+$: console.log("base",base)
 
 // let scale = 1.2;
 // let BASE = 32*1.2;
