@@ -1,5 +1,5 @@
 <script>
-import { base } from "$app/paths";
+import { base, assets } from "$app/paths";
 import { onMount, getContext } from "svelte";
 import { tweened } from "svelte/motion";
 import runWithCancel from "$utils/runWithCancel.js";
@@ -14,7 +14,7 @@ export let text;
 const { scale, BASE } = getContext("Game");
 
 
-$: console.log("base",base)
+$: console.log("base",base, "assets", assets)
 
 // let scale = 1.2;
 // let BASE = 32*1.2;
