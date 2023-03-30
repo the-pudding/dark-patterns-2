@@ -4,6 +4,9 @@
     import Scrolly from "$components/helpers/Scrolly.svelte";
     import { fade } from "svelte/transition";
     import SpriteDark from "$components/SpriteDark.svelte";
+    import SpriteWrapper from "$components/SpriteWrapper.svelte";
+
+    import FinderWindow from "$components/FinderWindow.svelte"
 	import inView from "$actions/inView.js";
     import { groups, format } from "d3";
 
@@ -11,42 +14,44 @@
     export let cueData;
     export let sesameSprites;
     export let copy;
-    
+
+
     let sticky;
-    let stickyVisible;
+    let test;
     let scrollValue;
     let sprites;
 
     $: copyId = scrollValue ? scrollValue : 0;
     $: id = copySteps[copyId].id;
     $: bubbleText = copySteps[copyId]["text"];
-
-    $: key = "floor"
-
-
     $: cues = cueData.filter((d) => d.id === id && d.sprite);
     $: sprites = groups(cues, (d) => {
         return d.key
     });
-    const getSpriteData = (key) => sesameSprites.find((d) => d.id === key.split("_")[0]);
 
-    console.log(getSpriteData("Big-Boss"))
+    $: console.log(id);
+
+    // const getSpriteData = (key) => sesameSprites.find((d) => d.id === key.split("_")[0]);
+
 </script>
 
 <div
     class="sticky"
     bind:this={sticky}
-    use:inView
-    on:enter={() => (stickyVisible = true)}
-    on:exit={() => (stickyVisible = false)}
->
-    <div class="sprite-sandbox">
+    use:inView={{ progress: true }}
+    on:enter={() => (test = true)}
+    on:exit={() => (test = false)}
+    >
+
+    <SpriteWrapper bubbleText={bubbleText} id={id} sprites={sprites} cueData={cueData} sesameSprites={sesameSprites} />
+    
+    <!-- <div class="sprite-sandbox">
         <div class="sprite-container">
             {#each sprites as [key, spriteSteps] (key)}
                 <SpriteDark text={bubbleText} id={id} steps={spriteSteps} name={key.split("_")[0]} data={getSpriteData(key)} />
             {/each}
         </div>
-    </div>
+    </div> -->
 
 </div>
 
@@ -55,20 +60,33 @@
         {@const stepId = id === "intro" && i === 0 ? "scroll-to-start" : null}
         {@const active = scrollValue === i}
 
-        <div id={stepId} class="step" class:active>
-            {@html step}
-            {@html i}
+        <div
+            id={step.id}
+            class="step {stepId}"
+            class:active
+        >
             {#if i == 1}
-                <div class="company-scroll">
+                <div
+                    use:inView={{ progress: true }}
+                    on:progress={(e) => console.log()}    
+                    class="company-scroll"
+                    
+                >
                     {#each copy["companies"].slice(0,5) as image}
-                        <div class="company-image" style="margin-left:{Math.random()*100}%; width:{image.w}px"><img src="assets/{image.id}.png" /></div>
+                        <div class="company-image" style="margin-left:{Math.random()*100}%; width:{image.w}px">
+                            <FinderWindow />
+                            <img src="assets/{image.id}.png" />
+                        </div>
                     {/each}
                 </div>
             {/if}
             {#if i == 2}
                 <div class="company-scroll">
                     {#each copy["companies"].slice(5,copy["companies"].length) as image}
-                        <div class="company-image" style="margin-left:{Math.random()*50}%; width:{image.w}px"><img src="assets/{image.id}.png" /></div>
+                        <div class="company-image" style="margin-left:{Math.random()*50}%; width:{image.w}px">
+                            <FinderWindow />
+                            <img src="assets/{image.id}.png" />
+                        </div>
                     {/each}
                 </div>
             {/if}
@@ -79,9 +97,19 @@
 <style>
 
     .company-image {
-        padding: 0;
         margin-bottom: 50px;
         align-self: center;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .company-image img {
+        margin: 0 auto;
+        padding: 2rem;
+        justify-content: center;
+        z-index: 100;
+        margin-top: 25px;
     }
     .sticky {
 		display: flex;
@@ -89,6 +117,7 @@
 		align-items: flex-start;
 		position: sticky;
 		top: 0;
+        z-index: 10000;
 		height: 100vh;
 		width: 100%;
 		overflow: hidden;

@@ -41,6 +41,8 @@
 	--1s: 1ms;
 }
 
+
+
 /* dark theme */
 @media screen and (prefers-color-scheme:dark) {
 	:root {
@@ -97,4 +99,8 @@ h6 {
 	font-family: var(--serif-display);
 	font-size: 24px;
 	-webkit-font-smoothing: antialiased;
+}
+
+#content .active .sprite-sandbox {
+	display: block;
 }

@@ -23,19 +23,25 @@
 		walk:"character",
 		win:"character",
 		"Big-Boss":"Big-Boss",
-		floor:"floor"
+		floor:"floor",
+		land:"land",
+		cloud:"cloud"
 	}
 
 	let sizeLookup = {
 		"character": 128,
 		"Big-Boss":256,
-		"floor":304
+		"floor":304,
+		"land":304,
+		"cloud":240
 	}
 
 	let rowLookup = {
 		"character": [9,9],
 		"Big-Boss":[3,3],
-		"floor":[1,1]
+		"floor":[1,1],
+		"land":[1,1],
+		"cloud":[1,1]
 	}
 
 

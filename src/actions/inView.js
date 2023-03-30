@@ -25,6 +25,7 @@ export default function inView(node, params = {}) {
 		if (params.progress && intersecting) {
 			const ratio = e[0].intersectionRatio;
 			const detail = { ratio };
+			console.log(detail)
 			node.dispatchEvent(new CustomEvent("progress", { detail }));
 		}
 	};
