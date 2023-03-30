@@ -113,7 +113,7 @@ const pause = (delay) => {
 
     let i = 0;
     let textLength = bubbleText.length;
-    const duration = textLength * 200;
+    const duration = textLength * 150;
 
     textInterval = setInterval(() => {
         i = i + 100;

@@ -72,18 +72,8 @@
                     class="company-scroll"
                     
                 >
-                    {#each copy["companies"].slice(0,5) as image}
-                        <div class="company-image" style="margin-left:{Math.random()*100}%; width:{image.w}px">
-                            <FinderWindow />
-                            <img src="assets/{image.id}.png" />
-                        </div>
-                    {/each}
-                </div>
-            {/if}
-            {#if i == 2}
-                <div class="company-scroll">
-                    {#each copy["companies"].slice(5,copy["companies"].length) as image}
-                        <div class="company-image" style="margin-left:{Math.random()*50}%; width:{image.w}px">
+                    {#each copy["companies"] as image}
+                        <div class="company-image" style="margin-left:{Math.random()*90}%; width:{image.w}px">
                             <FinderWindow />
                             <img src="assets/{image.id}.png" />
                         </div>
@@ -98,10 +88,11 @@
 
     .company-image {
         margin-bottom: 50px;
-        align-self: center;
         position: relative;
         display: flex;
         flex-direction: column;
+        width: 100%;
+        overflow: hidden;
     }
 
     .company-image img {
@@ -136,10 +127,9 @@
 
     .company-scroll {
         display:flex;
-        justify-content: center;
+        justify-content: flex-start;
         flex-wrap: wrap;
         flex-direction: column;
-        margin-left:-100px;
     }
 
     .sprite-container {
