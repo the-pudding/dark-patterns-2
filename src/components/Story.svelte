@@ -91,6 +91,10 @@
 <div class="wrapper {`${blockId}inView`}">
     <div class="go-dark">
     </div>
+    <div class="grid-life">
+    </div>
+
+
 
     <ScrollyHelper bind:value={scrollValue}>
         {#each blocks as block, i}
@@ -373,7 +377,7 @@
         margin-bottom: 50px;
     }
 
-    .go-dark {
+    .go-dark, .grid-life {
         position: absolute;
         top: 0;
         left: 0;
@@ -384,4 +388,10 @@
         z-index: 1;
         transition: opacity .5s;
     }
+
+    .grid-life {
+        opacity: 1;
+        background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAACgAgMAAADm7QMnAAAADFBMVEWHh4eysrKurq60tLTxWZFvAAAABHRSTlOAOBYpKphJMgAAAEVJREFUeNpjYA3FAA4Mq17tWrcalVhBtOBK7IL/McFfErSPWjRq0ahFoxaNWjRMLMJRoYzWR6MWjVo0atGoRaMWDYL6CAA67a9qtD47OgAAAABJRU5ErkJggg==);
+    }
+
 </style>
