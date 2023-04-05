@@ -1,9 +1,13 @@
 <script>
 	import { createEventDispatcher } from "svelte";
+	import { space } from "svelte/internal";
 	export let caption = "";
 	export let rows = []; // [{ class, style }]
 	export let columns = []; // [{ label, prop, sort = true, type = "text", dir = undefined, sortFn: undefined }];
 
+	export let copy;
+
+	
 	const dispatch = createEventDispatcher();
 
 	const sortFn = {
@@ -46,6 +50,10 @@
 		class: d.class || ""
 	}));
 	$: autoSort(tr);
+
+	$: companyLookup = new Map(copy.map(obj => [obj["company"], obj]));
+
+
 </script>
 
 <table>
@@ -61,8 +69,9 @@
 				>
 					{#if sort}
 						<button on:click={() => onSort({ prop, i })}>{label}</button>
-					{:else}
-						{label}
+					{:else}	
+						<span style={i == 3 ? 'width: 150px' : ''}>{label}</span>
+						
 					{/if}
 				</th>
 			{/each}
@@ -77,7 +86,24 @@
 						class={r.class}
 						class:is-number={type === "number"}
 					>
-						{@html r[prop]}
+
+					
+						{#if prop == "Company"}
+							{#if companyLookup.get(r[prop]).w > 350}
+								<span>{r[prop]}</span>
+							{:else}
+								<div class="img-wrapper"><img class={companyLookup.get(r[prop]).id} alt="{r[prop]}" src="assets/{companyLookup.get(r[prop]).id}.png"></div>
+							{/if}
+							
+						{:else if r[prop] == "FALSE"}
+							<div class="x">
+								<img alt="Savage Fenty" src="assets/x.png">
+							</div>
+						{:else if r[prop] == "TRUE"}
+							<div class="x"><img alt="Savage Fenty" src="assets/check.png"></div>
+						{:else}
+							{@html r[prop]}
+						{/if}
 					</td>
 				{/each}
 			</tr>
@@ -88,13 +114,19 @@
 <style>
 	table {
 		width: 100%;
+		max-width: 800px;
 		margin: 0 auto;
 		table-layout: auto;
+		font-family: 'CozetteVector';
 	}
 
 	th.is-number,
 	td.is-number {
 		text-align: right;
+	}
+
+	th span {
+    	display: block;
 	}
 
 	th,
@@ -105,7 +137,32 @@
 	}
 
 	td {
+		vertical-align: middle;
+	}
+
+	thead {
+		background-color: rgba(0,0,0,.1);
+		font-family: 'CozetteVector';
+	}
+
+	td {
 		border-top: 1px solid currentColor;
+	}
+
+	.img-wrapper {
+		max-width: 150px;
+		padding-right: 10px;
+	}
+
+	.flex {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}
+
+	img {
+		width: 100%;
+		margin: 0;
 	}
 
 	th button {
@@ -117,6 +174,13 @@
 		border: none;
 		border-radius: 0;
 		appearance: none;
+		font-family: 'CozetteVector';
+		font-size: 21px;
+	}
+
+	th {
+		font-size: 18px;
+		padding-right: 10px;
 	}
 
 	th.is-sortable button:after {
@@ -141,4 +205,8 @@
 	tr {
 		cursor: pointer;
 	}
+	.x {
+		max-width: 30px;
+	}
+
 </style>

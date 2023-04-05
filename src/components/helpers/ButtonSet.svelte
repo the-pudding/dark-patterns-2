@@ -4,7 +4,9 @@
 	export let legendPosition = "top";
 	export let labelClass = "";
 	export let disabled = false;
-	export let value = options.length ? options[0].value : "";
+	export let binded;
+
+	let value = options.length ? options[0].value : "";
 
 	const id = `legend-${Math.floor(Math.random() * 1000000)}`;
 	const makeSlug = (str = "") => `${str}`.toLowerCase().replace(/\W/g, "");
@@ -15,6 +17,9 @@
 		slug: makeSlug(d.value)
 	}));
 	$: isTop = legendPosition === "top";
+
+	$: binded = value;
+
 </script>
 
 <div class="button-set">
@@ -55,7 +60,7 @@
 
 	.group {
 		display: flex;
-		align-items: center;
+		align-items: flex-start;
 	}
 
 	.group.is-top {
@@ -65,11 +70,15 @@
 	.is-top .legend {
 		padding-bottom: 0.5em;
 		padding-right: 0;
+		margin: 0;
 	}
 
 	.legend {
 		padding-right: 0.5em;
 		font-size: 1em;
+		text-transform: uppercase;
+		font-size: 12px;
+		letter-spacing: 1px;
 	}
 
 	.options {
@@ -81,14 +90,16 @@
 		user-select: none;
 		line-height: 1;
 		margin: 0;
-		padding: 0.5em;
 		border-radius: 0;
-		border: 2px solid var(--color-gray-900);
 		outline: none;
 		cursor: pointer;
 		font-family: inherit;
 		font-size: 1em;
 		display: inline-block;
+		font-family: 'CozetteVector';
+		color: rgba(0,0,0,.5);
+        font-size: 18px;
+		margin-right: 25px;
 	}
 
 	.option + .option label {
@@ -108,22 +119,22 @@
 	}
 
 	input[type="radio"] + label {
-		background: var(--color-white);
-		color: var(--color-gray-900);
+		color: rgba(0,0,0,.5);
 	}
 
 	input[type="radio"]:checked + label,
 	input[type="radio"]:checked:hover + label {
-		background: var(--color-gray-900);
-		color: var(--color-white);
+		color: rgba(0,0,0,1);
+		text-decoration: underline;
+        text-decoration-color: rgba(0,0,0,.3);
 	}
 
 	input[type="radio"]:hover + label {
-		background: var(--color-gray-100);
+		color: rgba(0,0,0,.5);
 	}
 
 	input[type="radio"]:focus + label {
-		box-shadow: 0 0 4px 0 var(--color-focus);
+		display: block;
 	}
 
 	input[type="radio"]:disabled + label {

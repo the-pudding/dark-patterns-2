@@ -29,9 +29,8 @@
         return d.key
     });
 
-    $: console.log(id);
 
-    // const getSpriteData = (key) => sesameSprites.find((d) => d.id === key.split("_")[0]);
+    $: console.log(copy["companies"])
 
 </script>
 
@@ -43,16 +42,7 @@
     on:exit={() => (test = false)}
     >
 
-    <SpriteWrapper bubbleText={bubbleText} id={id} sprites={sprites} cueData={cueData} sesameSprites={sesameSprites} />
-    
-    <!-- <div class="sprite-sandbox">
-        <div class="sprite-container">
-            {#each sprites as [key, spriteSteps] (key)}
-                <SpriteDark text={bubbleText} id={id} steps={spriteSteps} name={key.split("_")[0]} data={getSpriteData(key)} />
-            {/each}
-        </div>
-    </div> -->
-
+    <SpriteWrapper BASE={96} bubbleText={bubbleText} id={id} sprites={sprites} cueData={cueData} sesameSprites={sesameSprites} />
 </div>
 
 <Scrolly bind:value={scrollValue}>
@@ -85,6 +75,24 @@
 </Scrolly>
 
 <style>
+
+    .landscape, .pink {
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        z-index: -1;
+        position: absolute;
+    }
+
+    .landscape {
+        background-image: url('assets/landscape.png');
+        background-size: cover;
+    }
+
+    .pink {
+        background: pink;
+    }
 
     .company-image {
         margin-bottom: 50px;

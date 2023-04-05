@@ -9,6 +9,8 @@
     export let sprites;
     export let section;
     export let BASE;
+    export let floatBottom;
+    export let hideBubble
 
     $: key = "floor"
     $: cues = cueData.filter((d) => d.id === id && d.sprite);
@@ -22,9 +24,9 @@
 </script>
 
 <div class="sprite-sandbox">
-    <div class="sprite-container">
+    <div class="sprite-container" class:floatBottom>
         {#each sprites as [key, spriteSteps] (key)}
-            <SpriteDark BASE={BASE} section={section} text={bubbleText} id={id} steps={spriteSteps} name={key.split("_")[0]} data={getSpriteData(key)} />
+            <SpriteDark hideBubble={hideBubble} BASE={BASE} section={section} text={bubbleText} id={id} steps={spriteSteps} name={key.split("_")[0]} data={getSpriteData(key)} />
         {/each}
     </div>
 </div>
@@ -49,6 +51,12 @@
         position: absolute;
         top: 50%;
         transform: translate(0,-50%);
+    }
+    .floatBottom {
+        display: block;
+        top: auto;
+        bottom: 0;
+        transform: none;
     }
 
 </style>

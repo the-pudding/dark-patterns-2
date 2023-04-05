@@ -10,6 +10,11 @@
     import Scrolly from "$components/Scrolly.svelte"
     import ScrollyHelper from "$components/helpers/Scrolly.svelte";
     import SpriteWrapper from "$components/SpriteWrapper.svelte";
+    import Montage from "$components/Montage.svelte"
+    import DarkScrolly from "$components/DarkScrolly.svelte"
+    import Vimeo from "$components/Vimeo.svelte"
+    import RefundTable from "$components/RefundTable.svelte"
+
     import { groups, format } from "d3";
 
     import { onMount, setContext, getContext } from "svelte";
@@ -93,6 +98,14 @@
     </div>
     <div class="grid-life">
     </div>
+    <div class="dungeon">
+        <div class="dungeon-tile">
+
+        </div>
+        <div class="dungeon-black">
+
+        </div>
+    </div>
 
 
 
@@ -129,6 +142,13 @@
                     on:enter={() => (test = "experiment")}
                     on:exit={() => (test = "title")}
                     />
+                {:else if block == "happened"}
+                    <Montage copySteps={copy[block]}/>
+ 
+                {:else if block == "darkTypes"}
+                    <DarkScrolly copySteps={copy[block]}/>
+                {:else if block == "vimeo"}
+                    <Vimeo {copy} {cueData} id={copy[block][0]["id"]} {sesameSprites} copySteps={copy[block]} />
                 {/if}
 
                 {#each copy[block] as sectionBlock}
@@ -149,7 +169,7 @@
                                                 <div class="aside-cookie">
                                                     <SpriteWrapper
                                                         section={`aside_1`}
-                                                        BASE={48}
+                                                        BASE={72}
                                                         bubbleText={`Accept our cookies without reading why.`}
                                                         id={`aside_1`}
                                                         sprites={groups(cueData.filter((d) => d.id === `aside_1` && d.sprite), (d) => {
@@ -164,7 +184,7 @@
                                                 <div class="aside-cookie aside-2">
                                                     <SpriteWrapper
                                                         section={`aside_2`}
-                                                        BASE={48}
+                                                        BASE={72}
                                                         bubbleText={`You have 00:00:10 seconds to buy`}
                                                         id={`aside_2`}
                                                         sprites={groups(cueData.filter((d) => d.id === `aside_2` && d.sprite), (d) => {
@@ -183,11 +203,20 @@
                                 <p>{@html sectionBlock.text}</p>
                             {/if}
                         </div>
+                    {:else if block == "happened"}
+                        <div></div>
+                    {:else if block == "vimeo"}
+                        <div></div>
                     {:else}
                         <div class="section">
                             {#if sectionBlock["type"] == "body"}
-                                {#each sectionBlock.text as sectionBlockText}
+                                {#each sectionBlock.text as sectionBlockText, n}
                                     <p class="running-text">{@html sectionBlockText.value}</p>
+                                    {#if block == "results"}
+                                        {#if sectionBlock.id == "first" && n == 1}
+                                            <RefundTable copy={copy["companies"]}/>
+                                        {/if}
+                                    {/if}
                                 {/each}
                             {:else if sectionBlock["type"] == "graphic-company-slider"}
                                 <div class="slider-wrapper" style="width:400px;">
@@ -200,14 +229,6 @@
                                     </div>
                                     <FinderWindow record={true}/>
                                 </div>
-                            {:else if sectionBlock["type"] == "exit-happened"}
-                                
-                                <div class="happened">
-                                    <p>Here is</p>
-                                    <p>what</p>
-                                    <p>happened</p>
-                                </div>
-
                             {/if}
                         </div>
                     {/if}
@@ -217,10 +238,11 @@
     </ScrollyHelper>
 
 </div>
+
 <style>
     .happened {
         font-family: '8Bit';
-        margin-top: 300px;
+        margin-top: 0px;
         margin-bottom: 35vh;
     }
     .experiment .happened p {
@@ -242,14 +264,6 @@
     .companies .company-image img {
         margin: 0 auto;
     }
-    h1 {
-        font-family: "8Bit";
-        color: #240E40;
-        font-size: 96px;
-        text-align: center;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
 
     h3 {
         font-family: "CozetteVector";
@@ -270,6 +284,8 @@
         margin: 0 auto;
         width: calc(100% - 50px);
     }
+
+
 
     p {
         font-size: 21px;
@@ -311,7 +327,12 @@
         opacity: 1;
     }
 
-    .experimentinView.wrapper {
+    .vimeoinView .dungeon {
+        opacity: 1;
+        background: #011a18;
+    }
+
+    .experimentinView.wrapper, .happenedinView.wrapper, .darkTypesinView {
         background: linear-gradient(180deg, #FCEAFF 0%, #BFE0FF 100%);
     }
 
@@ -320,7 +341,7 @@
         background-clip: text;
     }
 
-    .titleinView h3, .titleinView p {
+    .titleinView h3, .titleinView p, .vimeoinView p {
         color: white;
     }
 
@@ -346,10 +367,10 @@
     }
 
     .experiment {
-        min-height: 100vh;
         color: black;
         width: 100vw;
         overflow: hidden;
+        margin-bottom: 200px;
     }
 
     .experiment p {
@@ -377,7 +398,7 @@
         margin-bottom: 50px;
     }
 
-    .go-dark, .grid-life {
+    .dungeon, .go-dark, .grid-life, .dungeon-black, .dungeon-tile {
         position: absolute;
         top: 0;
         left: 0;
@@ -392,6 +413,20 @@
     .grid-life {
         opacity: 1;
         background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAACgAgMAAADm7QMnAAAADFBMVEWHh4eysrKurq60tLTxWZFvAAAABHRSTlOAOBYpKphJMgAAAEVJREFUeNpjYA3FAA4Mq17tWrcalVhBtOBK7IL/McFfErSPWjRq0ahFoxaNWjRMLMJRoYzWR6MWjVo0atGoRaMWDYL6CAA67a9qtD47OgAAAABJRU5ErkJggg==);
+    }
+
+    .dungeon-tile {
+        background-image: url('assets/tile.jpg');
+        background-repeat: repeat;
+        background-size: 380px 380px;
+        opacity: .3;
+        position: fixed;
+    }
+
+    .dungeon-black {
+        opacity: 1;
+        background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #151517 100%);
+        position: fixed;
     }
 
 </style>

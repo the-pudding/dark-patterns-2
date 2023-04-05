@@ -1,6 +1,7 @@
 <script>
 import { base } from "$app/paths";
 import { onMount, getContext } from "svelte";
+import { cubicInOut } from 'svelte/easing';
 import { tweened } from "svelte/motion";
 import runWithCancel from "$utils/runWithCancel.js";
 import { fade } from "svelte/transition";
@@ -13,7 +14,8 @@ export let data;
 export let id;
 export let text;
 export let section;
-export let BASE = 96;
+export let BASE;
+export let hideBubble;
 // const { scale, BASE } = getContext("Game");
 
 
@@ -23,30 +25,32 @@ const UNITS_Y = 4;
 const MAX_SCALE = 4;
 const HEIGHT_BP = 960;
 
-const calcScale = (w, h) => {
-    if(wrapper < 500) {
-      return wrapper/SIZE;
+const calcScale = (w, h, wrap) => {
+    if(wrap < 500) {
+      
+      let newScale = wrap/(BASE * UNITS_X);
+      console.log("shrinking", newScale)
+      return Math.max(newScale,.5);
     }
+    
+    if (mobile) return w / (BASE * UNITS_X);
 
-    if (mobile) return w / SIZE;
-
-    let widthScale = Math.min(MAX_SCALE, w / SIZE);
-
+    let widthScale = Math.min(MAX_SCALE, w / (BASE * UNITS_X));
     if (widthScale < 4) widthScale -= 0.5;
     else widthScale -= 0.2;
+
+    console.log(wrap,BASE,UNITS_X,BASE * UNITS_X,MAX_SCALE,w,widthScale)
 
     const min = 540;
     const upper = Math.min(Math.max(min, h), HEIGHT_BP);
     const factor = 0.5 + ((upper - min) / (HEIGHT_BP - min)) * 0.45;
     const shrink = factor * widthScale;
-
     return shrink;
 };
 
-$: mobile = !$mq.lg;
-$: wrapper, scale = calcScale($viewport.width, $viewport.height);
+$: mobile = $viewport.width < 500;
+$: scale = calcScale($viewport.width, $viewport.height, wrapper);
 $: margin = Math.ceil(($viewport.width - scale * BASE * UNITS_X) / 2);
-$: SIZE = BASE * UNITS_X;
 let scale = 1;
 let white = "#FFFFFF";
 const FRAMERATE = 100;
@@ -59,6 +63,11 @@ let bubbleTextCounter;
 let z;
 let wrapper;
 let interval;
+let el;
+
+
+
+$: console.log(wrapper,el)
 
 $: bubbleText = text.split(" ").map(d => {
   return d + "&nbsp;";
@@ -72,7 +81,8 @@ $: cancelFn = start(id);
 
 $: frame = data.frames.find((d) => d.index === frameIndex);
 
-$: x = `${$tween.x * scale * BASE}px`;
+// $: x = `${$tween.x * scale * BASE}px`;
+$: x = `${$tween.x * 10/100 * wrapper - data.size * scale}px`;
 $: y = `${$tween.y * scale * BASE * -1}px`;
 $: s = flip ? -1 : 1;
 
@@ -103,7 +113,13 @@ const pause = (delay) => {
     const start = makeObj(step, "start_");
     const end = makeObj(step, "end_");
     const { duration } = step;
-    tween = tweened(start, { duration });
+    if(step.cycle == jump){
+      tween = tweened(start, { duration, easing: cubicInOut  });
+    }
+    else {
+      tween = tweened(start, { duration });
+    }
+    
     await tween.set(end);
     return;
   };
@@ -211,21 +227,22 @@ onMount(() => {
 });
 
 
+
       
 </script>
 
 
-<div bind:clientWidth={wrapper} class="{name == "floor" ? "floor sprite-wrapper" : "sprite-wrapper"}">
+<div bind:this={el} bind:offsetWidth={wrapper} class="{name == "floor" ? "floor sprite-wrapper" : "sprite-wrapper"}">
   {#if ["floor","cloud","land"].indexOf(name) > -1}
     <div
       class="sprite {name}"
       style="
-      width: {["floor","land"].indexOf(name) ? "200vw  " : width};
+      width: {["floor","land"].indexOf(name) > -1 ? "200vw" : width};
       background-image: url({bgImage});
       background-size: {width};
       height: {height};
       transform: {transform};
-      background-repeat: {["floor","land"].indexOf(name) ? "repeat" : "none"};
+      background-repeat: {["floor","land"].indexOf(name) > -1 ? "repeat" : "none"};
       "
     >
     </div>
@@ -258,7 +275,7 @@ onMount(() => {
   {/if}
 
   {#if name == "character"}
-    <div class="bubble {section}"
+    <div class:hideBubble class="bubble {section}"
       style="
         transform: {transform.split("scaleX")[0]};
         margin-left: {section == "aside_1" || section == "aside_2" ? "" : width};
@@ -327,6 +344,7 @@ onMount(() => {
       height: 100%;
       position: absolute;
       top: 0;
+      display: block;
     }
     .sprite {
         position: absolute;
@@ -489,6 +507,10 @@ onMount(() => {
       background-color: initial;
       padding: 0;
       cursor: pointer;
+    }
+
+    .hideBubble {
+      display: none;
     }
 
 </style>

@@ -25,15 +25,23 @@
 		"Big-Boss":"Big-Boss",
 		floor:"floor",
 		land:"land",
-		cloud:"cloud"
+		cloud:"cloud",
+		are:"are",
+		you:"you",
+		sure:"sure",
+		vim:"vim"
 	}
 
 	let sizeLookup = {
 		"character": 128,
 		"Big-Boss":256,
-		"floor":304,
+		"floor":152,
 		"land":304,
-		"cloud":240
+		"cloud":240,
+		"are":150,
+		"you":150,
+		"sure":150,
+		"vim":170
 	}
 
 	let rowLookup = {
@@ -41,7 +49,12 @@
 		"Big-Boss":[3,3],
 		"floor":[1,1],
 		"land":[1,1],
-		"cloud":[1,1]
+		"cloud":[1,1],
+		"are":[1,1],
+		"you":[1,1],
+		"sure":[1,1],
+		"vim":[1,1]
+
 	}
 
 

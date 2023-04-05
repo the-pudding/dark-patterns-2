@@ -90,6 +90,10 @@ h5 {
 	font-size: var(--22px, 22px);
 }
 
+#content .vimeoinView .dark-fade {
+	opacity: 1;
+}
+
 h6 {
 	font-size: var(--20px, 20px);
 }
@@ -97,8 +101,23 @@ h6 {
 
 .big {
 	font-family: var(--serif-display);
-	font-size: 24px;
+	font-size: 26px;
 	-webkit-font-smoothing: antialiased;
+}
+
+h1,h2 {
+	font-family: "8Bit";
+	color: #240E40;
+	font-size: 96px;
+	text-align: center;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+h2 {
+	font-size: 21px;
+	color: #25304F;
+	-webkit-text-fill-color: #25304F;
 }
 
 #content .active .sprite-sandbox {

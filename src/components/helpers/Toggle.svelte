@@ -6,6 +6,8 @@
 
 	let checked = value === options[0];
 
+	$: console.log(options)
+
 	const id = `toggle-${Math.floor(Math.random() * 1000000)}`;
 
 	const handleClick = (event) => {
@@ -16,7 +18,7 @@
 	};
 </script>
 
-<div class="toggle toggle--{style}">
+<div class="options toggle toggle--{style}">
 	<span class="label" {id}>{label}</span>
 	<button
 		role="switch"
@@ -32,6 +34,8 @@
 </div>
 
 <style>
+
+
 	.toggle button,
 	.label {
 		font-family: inherit;
