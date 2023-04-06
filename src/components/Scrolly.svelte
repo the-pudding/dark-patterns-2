@@ -152,6 +152,7 @@
     .step {
         min-height: 100vh;
         max-width: 100%;
+        overflow: hidden;
     }
 
     .step:first-of-type {

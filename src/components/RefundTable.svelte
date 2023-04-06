@@ -12,10 +12,13 @@
 	})	
 </script>
 
-<section id="demo-table">
+<section class="demo-table">
 	<SortTable {rows} {columns} {copy}/>
 </section>
 
 <style>
-
+	.demo-table {
+		margin-bottom: 150px;
+		margin-top: 50px;
+	}
 </style>

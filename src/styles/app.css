@@ -123,3 +123,7 @@ h2 {
 #content .active .sprite-sandbox {
 	display: block;
 }
+
+#content swiper-slide {
+	width: auto;
+}

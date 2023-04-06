@@ -41,6 +41,7 @@
 	"subdirectory": "dark-patterns-2",
 	"dependencies": {
 		"enter-view": "^2.0.1",
-		"spritesmith": "^3.4.1"
+		"spritesmith": "^3.4.1",
+		"swiper": "^9.2.0"
 	}
 }

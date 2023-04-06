@@ -10,6 +10,7 @@
     import Scrolly from "$components/Scrolly.svelte"
     import ScrollyHelper from "$components/helpers/Scrolly.svelte";
     import SpriteWrapper from "$components/SpriteWrapper.svelte";
+    import Shame from "$components/Shame.svelte";
     import Montage from "$components/Montage.svelte"
     import DarkScrolly from "$components/DarkScrolly.svelte"
     import Vimeo from "$components/Vimeo.svelte"
@@ -209,12 +210,18 @@
                         <div></div>
                     {:else}
                         <div class="section">
+                            {#if Object.keys(sectionBlock).indexOf("hed") > -1 && block == "results"}
+                                <h4>{sectionBlock.hed}</h4>
+                            {/if}
                             {#if sectionBlock["type"] == "body"}
                                 {#each sectionBlock.text as sectionBlockText, n}
                                     <p class="running-text">{@html sectionBlockText.value}</p>
                                     {#if block == "results"}
                                         {#if sectionBlock.id == "first" && n == 1}
                                             <RefundTable copy={copy["companies"]}/>
+                                        {/if}
+                                        {#if sectionBlock.id == "third" && n == 2}
+                                            <Shame />
                                         {/if}
                                     {/if}
                                 {/each}
@@ -240,6 +247,12 @@
 </div>
 
 <style>
+    h4 {
+        font-family: 'CozetteVector';
+        text-align: center;
+        margin-bottom: 50px;
+        font-size: 28px;
+    }
     .happened {
         font-family: '8Bit';
         margin-top: 0px;
@@ -334,6 +347,10 @@
 
     .experimentinView.wrapper, .happenedinView.wrapper, .darkTypesinView {
         background: linear-gradient(180deg, #FCEAFF 0%, #BFE0FF 100%);
+    }
+
+    .resultsinView.wrapper {
+        background-color: #f3f2ff;
     }
 
     .titleinView h1 {

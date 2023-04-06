@@ -70,7 +70,7 @@
 					{#if sort}
 						<button on:click={() => onSort({ prop, i })}>{label}</button>
 					{:else}	
-						<span style={i == 3 ? 'width: 150px' : ''}>{label}</span>
+						<span style={i == 2 || i == 1 ? 'width: 150px' : ''}>{label}</span>
 						
 					{/if}
 				</th>
