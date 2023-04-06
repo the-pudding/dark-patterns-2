@@ -62,7 +62,7 @@
                     class="company-scroll"
                     
                 >
-                    {#each copy["companies"] as image}
+                    {#each copy["companies"].filter(d => d.id != "null") as image}
                         <div class="company-image" style="margin-left:{Math.random()*90}%; width:{image.w}px">
                             <FinderWindow />
                             <img src="assets/{image.id}.png" />

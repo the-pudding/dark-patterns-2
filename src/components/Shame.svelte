@@ -20,7 +20,7 @@
 <style>
     .slider-container {
         margin: 50px auto;
-        background: linear-gradient(180deg, #e5d5dd 0%, rgba(255,255,255,0) 100%);
+        background: linear-gradient(180deg, #d5e2e5 0%, rgba(255,255,255,0) 100%);
     }
     img {
         max-width: 500px;

@@ -102,7 +102,8 @@ h6 {
 .big {
 	font-family: var(--serif-display);
 	font-size: 26px;
-	-webkit-font-smoothing: antialiased;
+	margin-top: 75px;
+	display: block;
 }
 
 h1,h2 {
@@ -126,4 +127,13 @@ h2 {
 
 #content swiper-slide {
 	width: auto;
+}
+
+.pull {
+	display: block;
+    margin-top: 50px;
+    font-family: 'CozetteVector';
+    font-size: 24px;
+    line-height: 1.5;
+    color: #1e185a;
 }

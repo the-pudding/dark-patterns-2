@@ -18,7 +18,7 @@
 
 <style>
 	.demo-table {
-		margin-bottom: 150px;
+		margin-bottom: 100px;
 		margin-top: 50px;
 	}
 </style>

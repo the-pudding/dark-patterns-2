@@ -4,7 +4,7 @@
 
 <header>
 	<div class="wordmark">
-		<a href="https://pudding.cool" aria-label="The Pudding">
+		<a href="/" aria-label="The Pudding">
 			The Pudding
 		</a>
 		<p class="workmark-sub">PRESENTS</p>
@@ -18,6 +18,8 @@
 		left: 0;
 		right: 0;
 		margin: 0 auto;
+		pointer-events: all;
+    	z-index: 1000000;
 	}
 
 	.wordmark {

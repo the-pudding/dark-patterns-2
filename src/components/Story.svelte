@@ -78,7 +78,7 @@
         console.log("slidinggggggg")
 
         sliderInterval = setInterval(function(){
-            if(sliderCount > copy["companies"].length){
+            if(sliderCount > copy["companies"].length - 1){
                 sliderCount = 0;
             }
             else {
@@ -228,7 +228,7 @@
                             {:else if sectionBlock["type"] == "graphic-company-slider"}
                                 <div class="slider-wrapper" style="width:400px;">
                                     <div class="companies" style="transform:translate(-{sliderCount*400}px,0)">
-                                        {#each copy["companies"] as image}
+                                        {#each copy["companies"].filter(d => d.id != "null") as image}
                                             <div class="company-image" style="width:400px;">
                                                 <img style="width:{image.w}px; height:{image.h}px" src="assets/{image.id}.png" />
                                             </div>
@@ -445,5 +445,7 @@
         background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #151517 100%);
         position: fixed;
     }
+
+    
 
 </style>

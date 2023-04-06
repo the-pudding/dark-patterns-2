@@ -26,10 +26,8 @@ const MAX_SCALE = 4;
 const HEIGHT_BP = 960;
 
 const calcScale = (w, h, wrap) => {
-    if(wrap < 500) {
-      
+    if(wrap < 600) {
       let newScale = wrap/(BASE * UNITS_X);
-      console.log("shrinking", newScale)
       return Math.max(newScale,.5);
     }
     
@@ -39,11 +37,10 @@ const calcScale = (w, h, wrap) => {
     if (widthScale < 4) widthScale -= 0.5;
     else widthScale -= 0.2;
 
-    console.log(wrap,BASE,UNITS_X,BASE * UNITS_X,MAX_SCALE,w,widthScale)
-
     const min = 540;
     const upper = Math.min(Math.max(min, h), HEIGHT_BP);
-    const factor = 0.5 + ((upper - min) / (HEIGHT_BP - min)) * 0.45;
+    //const factor = 0.5 + ((upper - min) / (HEIGHT_BP - min)) * 0.45;
+    const factor = 0.5 + ((upper - min) / (HEIGHT_BP - min)) * 1;
     const shrink = factor * widthScale;
     return shrink;
 };
@@ -249,6 +246,8 @@ onMount(() => {
   {:else}
     <div
       class="sprite"
+      data-wrapper={wrapper}
+      data-scale={scale}
       in:fade={{ duration: 1000 }} out:fade={{ duration: 1000 }}
       style="
           background-image: url({bgImage});

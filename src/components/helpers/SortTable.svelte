@@ -150,7 +150,7 @@
 	}
 
 	.img-wrapper {
-		max-width: 150px;
+		max-width: 140px;
 		padding-right: 10px;
 	}
 

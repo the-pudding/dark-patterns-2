@@ -50,6 +50,7 @@
         margin: 0 auto;
         width: 110px;
         padding: 5px 10px;
+        animation: 3s infinite click-animation;
     }
     .cancel-wrapper img {
         width: 30px;
@@ -136,14 +137,24 @@
     }
 
     @keyframes blink-animation {
-    to {
-        visibility: hidden;
+        to {
+            visibility: hidden;
+        }
     }
-    }
-    @-webkit-keyframes blink-animation {
-    to {
-        visibility: hidden;
-    }
+
+    @keyframes click-animation {
+        0% {
+            transform: scale(1);
+        }
+        80% {
+            transform: scale(1);
+        }
+        90% {
+            transform: scale(.9);
+        }
+        95% {
+            transform: scale(.95);
+        }
     }
 
 </style>
