@@ -59,7 +59,7 @@
 	}
 
 	.hide {
-		opacity: 0;
+		opacity: 1;
 	}
 
 	.group {
