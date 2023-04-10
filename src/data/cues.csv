@@ -2,7 +2,7 @@ id,sprite,dupe,delay,once,cycle,loop,duration,start_x,end_x,start_y,end_y,start_
 first,character,,,,walk,,2400,-2,1,1,1,,,10,
 first,character,,,,idle,,,1,1,1,1,,,10,
 first,land,,,,,,,0,0,-0.65,-0.65,,,,
-first,cloud,,,,,TRUE,50000,8,0,4,4,,,,
+first,cloud,,,,,TRUE,50000,8,0,2,2,,,,
 second,character,,,,coin,,,1,1,1,1,,,10,
 second,land,,,,,,,0,0,-0.65,-0.65,,,,
 third,character,,,,walk,,,1,1,1,1,,,10,

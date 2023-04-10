@@ -22,7 +22,7 @@
 
 </script>
 
-<div class="button-set">
+<div class="button-set {options.length} {options.length < 2 ? 'hide' : ''}">
 	<div
 		id={`group-${id}`}
 		class="group"
@@ -56,6 +56,10 @@
 	.button-set {
 		display: inline-block;
 		margin-bottom: 4px;
+	}
+
+	.hide {
+		opacity: 0;
 	}
 
 	.group {

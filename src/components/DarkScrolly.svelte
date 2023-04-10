@@ -2,6 +2,7 @@
     import ScrollyHelper from "$components/helpers/Scrolly.svelte";
     import ButtonSet from "./helpers/ButtonSet.svelte";
     import DemoButtonSet from "$components/demo/Demo.ButtonSet.svelte";
+    import { fade } from 'svelte/transition';
 
     export let copySteps;
 
@@ -47,7 +48,7 @@
             </div>
         </div>
         {#if binded}
-            <video muted autoplay loop src="assets/{binded.toLowerCase().replace(" ","_")}.mp4" bind:this={videoEl} bind:currentTime bind:duration>
+            <video muted autoplay loop src="assets/{binded.toLowerCase().replace(" ","_").replace(" ","_")}.mp4" bind:this={videoEl} bind:currentTime bind:duration>
             </video>
         {/if}
         <div class="progress">

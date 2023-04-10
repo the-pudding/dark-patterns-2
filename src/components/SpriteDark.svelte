@@ -22,7 +22,7 @@ export let hideBubble;
 const UNITS_X = 10;
 const UNITS_Y = 4;
 
-const MAX_SCALE = 4;
+const MAX_SCALE = 1.3;
 const HEIGHT_BP = 960;
 
 const calcScale = (w, h, wrap) => {
