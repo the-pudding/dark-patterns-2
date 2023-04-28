@@ -5,23 +5,61 @@
     import { fade } from 'svelte/transition';
 
     export let copySteps;
-
+    export let blockId;
 
     let videoEl;
     let currentTime = 0;
     let sticky;
     let scrollValue;
 	let duration;
-    let binded;
+    let binded = "savage_fenty";
+    let loaded = false;
+
+    let imageOverride = ["Hulu","Netflix","Paramount Plus"];
 
 	$: widthElapsed = toPercent(progress, duration);
 	$: progress = currentTime || 0;
 
     $: scrollOverride = scrollValue || 0;
 
+
+    $: console.log(scrollValue);
+
     $: options = scrollOverride > -1 ? copySteps[scrollOverride]["options"].split(",").map(d => {
         return {"value": d};
     }) : [];
+
+    $: binded, loadVideo();
+
+    $: blockId == "darkTypes", loadVideo();
+
+    async function loadVideo(){
+        console.log(binded,videoEl)
+        if(binded && videoEl){
+            videoEl.currentTime = 0;
+            loaded = false;
+            let src = `assets/${binded.toLowerCase().replace(" ","_").replace(" ","_")}.mp4`;
+            const request = new XMLHttpRequest();
+            request.open("GET", src, true);
+            request.responseType = "blob";
+            request.onload = function () {
+                if (this.status === 200) {
+                    const videoBlob = this.response;
+                    const videoUrl = URL.createObjectURL(videoBlob);
+                    videoEl.src = videoUrl;
+                    videoEl.currentTime = 0;
+                    
+                    setTimeout(function() {
+                        videoEl.play();
+                    }, 1000)
+                    
+                    
+                }
+            };
+            request.send();
+            loaded = true;
+        }
+    }
 
     const toPercent = (a, b = 1) => `${(a / b) * 100}%`;
 
@@ -31,33 +69,36 @@
     class="sticky"
     bind:this={sticky}
 >
-    <div class="montage video-wrapper">
-        <div class="chooser">
+    {#key binded}
+    <div in:fade={{ duration: 1000 }} class="montage video-wrapper">
+        <!-- <div class="chooser">
             <div class="options">
-                <!-- <DemoButtonSet {options}/> -->
                 {#key options}
                     <ButtonSet legend={"View Dark Pattern for"} {options} bind:binded />
                 {/key}
-                <!-- <Toggle options={options} label="Enable" style="inner" bind:value={binded} /> -->
-
-                <!-- {#each options as option, i}
-                    <p 
-                        class="{i == 0 ? 'active' : ''}">{option}
-                    </p>
-                {/each} -->
             </div>
-        </div>
+        </div> -->
         {#if binded}
-            <video muted autoplay loop src="assets/{binded.toLowerCase().replace(" ","_").replace(" ","_")}.mp4" bind:this={videoEl} bind:currentTime bind:duration>
+            <img 
+                style="display:{imageOverride.indexOf(binded) > -1 ? 'block' : 'none'};"
+                src="assets/{binded.toLowerCase().replace(" ","_").toLowerCase().replace(" ","_")}_pattern.png" alt=""
+            >
+            <video 
+                style="display:{imageOverride.indexOf(binded) > -1 ? 'none' : 'block'};"
+                src="assets/{binded.toLowerCase().replace(" ","_").replace(" ","_")}.mp4"
+                muted loop bind:this={videoEl} bind:currentTime bind:duration>
             </video>
         {/if}
-        <div class="progress">
+        <div
+            class="progress"
+            style="display:{imageOverride.indexOf(binded) > -1 ? "none" : ''};"
+        >
 			<span style:width={widthElapsed} class="elapsed" />
 			<span class="cut">
             </span>
 		</div>
     </div>
-
+    {/key}
 </div>
 
 <ScrollyHelper bind:value={scrollValue}>
@@ -73,6 +114,15 @@
                         <p class="running-text">{@html sectionBlockText.value}</p>
                     {/each}
                 {/if}
+                <div class="chooser"
+                    style="display:{options.length > 1 ? "block" : "none"};"
+                >
+                    <div class="options">
+                    {#key options}
+                        <ButtonSet legend={"View Dark Pattern for"} {options} bind:binded />
+                    {/key}
+                    </div>
+                </div>
             </div>
     {/each}
 </ScrollyHelper>
@@ -81,8 +131,9 @@
 
     .chooser {
         margin: 0 auto;
-        max-width: 450px;
+        max-width: 400px;
         width: 100%;
+        padding: 1rem;
     }
 
     .choose-title {
@@ -136,7 +187,7 @@
         justify-content: center;
     }
 
-    .video-wrapper video {
+    .video-wrapper video, .video-wrapper img {
         width: 100%;
         max-width: 450px;
         margin: 0 auto;
@@ -176,7 +227,7 @@
 
     .dark-hed {
         font-size: 24px;
-        font-family: 'CozetteVector';
+        font-family: 'Lyon','serif';
     }
 
     p.active {

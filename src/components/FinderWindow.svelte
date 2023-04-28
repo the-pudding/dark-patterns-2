@@ -29,10 +29,10 @@
             </svg>
         </div>
 
-        <button class="cancel-wrapper">
+        <div class="cancel-wrapper">
             <span>CANCEL</span>
             <img src="assets/pointer.png" alt="">
-        </button>
+        </div>
         
             
     {/if}
@@ -49,6 +49,7 @@
         border-radius: 10px;
         margin: 0 auto;
         width: 110px;
+        text-align: center;
         padding: 5px 10px;
         animation: 3s infinite click-animation;
     }

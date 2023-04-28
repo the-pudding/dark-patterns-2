@@ -116,6 +116,7 @@
 <style>
 	table {
 		width: 100%;
+		cursor: default;
 		max-width: 800px;
 		margin: 0 auto;
 		table-layout: auto;
@@ -205,7 +206,7 @@
 	}
 
 	tr {
-		cursor: pointer;
+		cursor: default;
 	}
 	.x {
 		max-width: 30px;

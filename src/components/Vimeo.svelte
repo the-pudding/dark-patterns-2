@@ -5,7 +5,7 @@
     import { fade } from "svelte/transition";
     import SpriteDark from "$components/SpriteDark.svelte";
     import SpriteWrapper from "$components/SpriteWrapper.svelte";
-    import vimeo_1 from "$svg/vimeo_1_1.svg"
+    import vimeo_1 from "$svg/vimeo_1_2.svg"
 
     import FinderWindow from "$components/FinderWindow.svelte"
 	import inView from "$actions/inView.js";

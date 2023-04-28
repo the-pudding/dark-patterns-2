@@ -15,7 +15,7 @@
     import DarkScrolly from "$components/DarkScrolly.svelte"
     import Vimeo from "$components/Vimeo.svelte"
     import RefundTable from "$components/RefundTable.svelte"
-
+    import GoDark from "$components/GoDark.svelte";
     import { groups, format } from "d3";
 
     import { onMount, setContext, getContext } from "svelte";
@@ -24,7 +24,7 @@
     export let sesameSprites;
     export let copy;
 
-
+    let darken = 0;
     let toDrop = ["notes","companies"]
     let blocks;
     let test;
@@ -61,6 +61,8 @@
         return shrink;
     };
     
+
+    $: console.log(darken)
     $: mobile = !$mq.lg;
     $: scale.set(calcScale($viewport.width, $viewport.height));
     $: margin = Math.ceil(($viewport.width - $scale * BASE * UNITS_X) / 2);
@@ -95,7 +97,9 @@
 </script>
 
 <div class="wrapper {`${blockId}inView`}">
-    <div class="go-dark">
+    <div class="go-dark"
+        style="opacity:{blockId == "title" ? darken/100 : 0};"
+    >
     </div>
     <div class="grid-life">
     </div>
@@ -134,8 +138,8 @@
                     use:inView
                     on:enter={() => (test = "title")}
                     on:exit={() => (test = "exit")}
-
                     />
+                    <GoDark bind:darken/>
                 {:else if block == "experiment"}
                     <div
                     id="detect-start"
@@ -147,7 +151,7 @@
                     <Montage copySteps={copy[block]}/>
  
                 {:else if block == "darkTypes"}
-                    <DarkScrolly copySteps={copy[block]}/>
+                    <DarkScrolly {blockId} copySteps={copy[block]}/>
                 {:else if block == "vimeo"}
                     <Vimeo {copy} {cueData} id={copy[block][0]["id"]} {sesameSprites} copySteps={copy[block]} />
                 {/if}
@@ -211,7 +215,7 @@
                     {:else}
                         <div class="section">
                             {#if Object.keys(sectionBlock).indexOf("hed") > -1 && block == "results"}
-                                <h4>{sectionBlock.hed}</h4>
+                                <p><span class="big">{sectionBlock.hed}</span></p>
                             {/if}
                             {#if sectionBlock["type"] == "body"}
                                 {#each sectionBlock.text as sectionBlockText, n}
@@ -254,7 +258,9 @@
         font-size: 28px;
     }
     .happened {
-        font-family: '8Bit';
+        font-family: 'CozetteVector';
+        text-align: center;
+        font-size: 18px;
         margin-top: 0px;
         margin-bottom: 35vh;
     }
@@ -299,12 +305,16 @@
     }
 
 
+    
 
     p {
         font-size: 21px;
-        -webkit-font-smoothing: antialiased;
         line-height: 1.6;
         margin-bottom: 1.2em;
+    }
+
+    .titleinView p {
+        -webkit-font-smoothing: antialiased;
     }
 
     .block-wrapper {
@@ -337,7 +347,7 @@
     }
 
     .titleinView .go-dark {
-        opacity: 1;
+        opacity: 0;
     }
 
     .vimeoinView .dungeon {

@@ -40,6 +40,7 @@
 	"browserslist": "> 0.5%, last 4 versions, not ie <= 11, not ie_mob <= 11",
 	"subdirectory": "dark-patterns-2",
 	"dependencies": {
+		"@sveltejs/svelte-scroller": "^2.0.7",
 		"enter-view": "^2.0.1",
 		"spritesmith": "^3.4.1",
 		"swiper": "^9.2.0"

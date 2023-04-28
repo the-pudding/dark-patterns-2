@@ -62,10 +62,6 @@ let wrapper;
 let interval;
 let el;
 
-
-
-$: console.log(wrapper,el)
-
 $: bubbleText = text.split(" ").map(d => {
   return d + "&nbsp;";
 })

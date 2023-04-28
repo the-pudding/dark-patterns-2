@@ -9,7 +9,7 @@
 </script>
 
 
-<h2>The Results</h2>
+<p class="big hed">The Results</p>
 
 <div
     class="sticky"
@@ -37,7 +37,7 @@
 
 <style>
 
-    h2 {
+    .hed {
         margin-bottom: 100px;
     }
     .sticky {
