@@ -17,7 +17,11 @@
     export let copy;
 
     let currentTime = 0;
+    let currentTimeTwo = 0;
+
     let duration;
+    let durationTwo;
+
     let sticky;
     let test;
     let scrollValue;
@@ -73,6 +77,18 @@
                         </div>
                     </div>
                 {/if}
+                {#if i == 1 && n == 0}
+                    <div class="vimeo-explain-wrapper">
+                        Vimeo&rsquo;s Dark Patterns when Canceling
+                        <video muted autoplay loop src="assets/vimeo_explainer.mp4" bind:currentTime={currentTimeTwo} bind:duration={durationTwo} alt=""></video>
+                        <div class="progress">
+                            <span style:width={widthElapsed} class="elapsed" />
+                            <span class="cut">
+                            </span>
+                        </div>
+                    </div>
+                {/if}
+
                 {#if i == 2 && n == 2}
                     <div class="vimeo-free-wrapper">
                         Where Vimeo hides its free version
@@ -172,10 +188,10 @@
         margin: 0 auto;
     }
 
-    .vimeo-free-wrapper {
+    .vimeo-free-wrapper, .vimeo-explain-wrapper {
         position: relative;
         margin: 50px auto;
-        max-width: 600px;
+        max-width: 450px;
         color: white;
         font-family: 'CozetteVector';
         text-align: center;
@@ -183,7 +199,11 @@
         padding-bottom: 600px;
     }
 
-    .vimeo-free-wrapper video {
+    .vimeo-explain-wrapper {
+        padding-bottom: 0;
+    }
+
+    .vimeo-free-wrapper video, .vimeo-explain-wrapper video {
         margin-top: 25px;
     }
 

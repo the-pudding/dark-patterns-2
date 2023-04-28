@@ -97,6 +97,9 @@
 			<span class="cut">
             </span>
 		</div>
+        <div class="white-background" class:loaded>
+            <p>Loading...</p>
+        </div>
     </div>
     {/key}
 </div>
@@ -185,12 +188,23 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
+        max-width: 450px;
+        width: 100%;
     }
 
     .video-wrapper video, .video-wrapper img {
         width: 100%;
-        max-width: 450px;
+        aspect-ratio: 1;
         margin: 0 auto;
+        position: relative;
+    }
+
+    .video-wrapper video:after {
+        content: '';
+        background-color: white;
+        position: absolute;
+        top: 0;
+        left: 0;
     }
 
     .video-wrapper .progress {
@@ -199,6 +213,28 @@
         max-width: 450px;
         margin: 0 auto;
         background:#C4C4C5;
+    }
+
+    .video-wrapper .white-background {
+        width: 100%;
+        background-color: white;
+        aspect-ratio: 1;
+        position: absolute;
+        display: block;
+    }
+
+    .video-wrapper .loaded {
+        display: none;
+    }
+
+    .white-background p {
+        font-family: 'CozetteVector';
+        text-align: center;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 50%;
+        transform: translate(0,-50%);
     }
 
     .progress .elapsed{
