@@ -1,5 +1,6 @@
 <script>
     import ScrollyHelper from "$components/helpers/Scrolly.svelte";
+    import { base } from "$app/paths";
 
     export let copySteps;
     let sticky;
@@ -15,7 +16,10 @@
     class="sticky"
     bind:this={sticky}
 >
-    <div class="montage {scrollValue == 0 ? 'visible' : ''}">
+    <div 
+        class="montage {scrollValue == 0 ? 'visible' : ''}"
+        style ="background-image: url('{base}/assets/montage.png');"
+    >
     </div>
 </div>
 
@@ -53,7 +57,6 @@
 	}
 
     .montage {
-        background: url('assets/montage.png');
         width: 100%;
         max-width: 1200px;
         height: 100%;
@@ -75,7 +78,9 @@
     .step {
         min-height: 100vh;
         max-width: 100%;
+        margin: 0 auto;
         z-index: 100;
+        width: calc(100% - 20px);
     }
 
     .running-text{

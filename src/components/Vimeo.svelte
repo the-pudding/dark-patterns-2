@@ -6,10 +6,12 @@
     import SpriteDark from "$components/SpriteDark.svelte";
     import SpriteWrapper from "$components/SpriteWrapper.svelte";
     import vimeo_1 from "$svg/vimeo_1_2.svg"
+    import viewport from "$stores/viewport.js";
 
     import FinderWindow from "$components/FinderWindow.svelte"
 	import inView from "$actions/inView.js";
-    import { groups, format } from "d3";
+    import { groups, scaleLinear } from "d3";
+
 
     export let copySteps;
     export let cueData;
@@ -28,6 +30,10 @@
     let sprites;
     let floatBottom = true;
     
+    let scaleBase = scaleLinear().domain([1500,400]).range([0,1]).clamp(true);
+
+    $: widthElapsedTwo = toPercent(progressTwo, durationTwo);
+    $: progressTwo = currentTimeTwo || 0;
 	$: widthElapsed = toPercent(progress, duration);
 	$: progress = currentTime || 0;
     $: copyId = scrollValue ? scrollValue : 0;
@@ -53,7 +59,7 @@
     <div class="dark-fade">
 
     </div>
-    <SpriteWrapper BASE={96} hideBubble={true} floatBottom={floatBottom} bubbleText={""} id={id} sprites={sprites} cueData={cueData} sesameSprites={sesameSprites} />
+    <SpriteWrapper BASE={96-(32*scaleBase($viewport.width))} hideBubble={true} floatBottom={floatBottom} bubbleText={""} id={id} sprites={sprites} cueData={cueData} sesameSprites={sesameSprites} />
 
 </div>
 
@@ -82,7 +88,7 @@
                         Vimeo&rsquo;s Dark Patterns when Canceling
                         <video muted autoplay loop src="assets/vimeo_explainer.mp4" bind:currentTime={currentTimeTwo} bind:duration={durationTwo} alt=""></video>
                         <div class="progress">
-                            <span style:width={widthElapsed} class="elapsed" />
+                            <span style:width={widthElapsedTwo} class="elapsed" />
                             <span class="cut">
                             </span>
                         </div>
@@ -173,6 +179,7 @@
         position: relative;
         margin: 50px auto;
         max-width: 500px;
+        width: calc(100% - 20px);
 
     }
 
@@ -186,6 +193,7 @@
     .running-text {
         max-width: 600px;
         margin: 0 auto;
+        width: calc(100% - 20px);
     }
 
     .vimeo-free-wrapper, .vimeo-explain-wrapper {
@@ -197,6 +205,7 @@
         text-align: center;
         font-size: 18px;
         padding-bottom: 600px;
+        width: calc(100% - 20px);
     }
 
     .vimeo-explain-wrapper {
@@ -220,4 +229,17 @@
         position: relative;
         display: block;
     }
+
+    @media only screen and (max-width: 600px) {
+
+        .dark-fade {
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 70%, #151517 90%);
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            opacity: 0;
+        }
+    
+    }
+
 </style>

@@ -288,10 +288,10 @@
         font-family: "CozetteVector";
         font-size: 20px;
         text-align: center;
-        width: calc(100% - 50px);
         max-width: 600px;
         margin: 0 auto;
         margin-top: 50px;
+        width: calc(100% - 20px);
     }
 
     .section {
@@ -301,7 +301,6 @@
 
     .section-intro {
         margin: 0 auto;
-        width: calc(100% - 50px);
     }
 
 
@@ -328,6 +327,7 @@
         margin: 0 auto;
         text-align: center;
         margin-top: 24px;
+        width: calc(100% - 20px);
         margin-bottom: 200px;
     }
 
@@ -381,6 +381,7 @@
         margin: 0 auto;
         font-size: 18px;
         margin-bottom: 1.5rem;
+        width: calc(100% - 20px);
     }
 
     .section-cold-intro {
@@ -455,6 +456,14 @@
         background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #151517 100%);
         position: fixed;
     }
+
+
+    @media only screen and (max-width: 1000px) {
+        .aside-cookie {
+            display: none;
+        }
+    }
+
 
     
 

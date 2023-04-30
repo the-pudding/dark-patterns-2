@@ -66,5 +66,12 @@
         padding-top: 50px;
     }
 
+    @media only screen and (max-width: 600px) {
+        img {
+            width: 100vw;
+            padding: 10px;
+        }
+    }
+
 </style>
   

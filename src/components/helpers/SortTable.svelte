@@ -1,12 +1,14 @@
 <script>
 	import { createEventDispatcher } from "svelte";
-	import { space } from "svelte/internal";
+	import viewport from "$stores/viewport.js";
+
 	export let caption = "";
 	export let rows = []; // [{ class, style }]
 	export let columns = []; // [{ label, prop, sort = true, type = "text", dir = undefined, sortFn: undefined }];
 
 	export let copy;
 
+	let width = 150;
 	
 	const dispatch = createEventDispatcher();
 
@@ -52,7 +54,11 @@
 	$: autoSort(tr);
 
 	$: companyLookup = new Map(copy.map(obj => [obj["company"], obj]));
-
+	$: if($viewport.width < 500) {
+		width = 75;
+	} else {
+		width = 150;
+	}
 
 </script>
 
@@ -72,7 +78,7 @@
 					{:else if i == 0}
 						<span></span>
 					{:else}	
-						<span style={i == 2 || i == 1 ? 'width: 150px' : ''}>{label}</span>
+						<span style={i == 2 || i == 1 ? `width: ${width}px` : ''}>{label}</span>
 						
 					{/if}
 				</th>
@@ -115,7 +121,7 @@
 
 <style>
 	table {
-		width: 100%;
+		width: calc(100% - 10px);
 		cursor: default;
 		max-width: 800px;
 		margin: 0 auto;
@@ -211,5 +217,7 @@
 	.x {
 		max-width: 30px;
 	}
+
+
 
 </style>

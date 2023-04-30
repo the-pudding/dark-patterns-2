@@ -26,15 +26,19 @@ const MAX_SCALE = 1.3;
 const HEIGHT_BP = 960;
 
 const calcScale = (w, h, wrap) => {
-    if(wrap < 600) {
+
+    if(wrap < 1500) {
       let newScale = wrap/(BASE * UNITS_X);
-      return Math.max(newScale,.5);
+      return Math.min(1.1,Math.max(newScale,.5));
     }
     
     if (mobile) return w / (BASE * UNITS_X);
 
     let widthScale = Math.min(MAX_SCALE, w / (BASE * UNITS_X));
+
+
     if (widthScale < 4) widthScale -= 0.5;
+
     else widthScale -= 0.2;
 
     const min = 540;
@@ -42,6 +46,7 @@ const calcScale = (w, h, wrap) => {
     //const factor = 0.5 + ((upper - min) / (HEIGHT_BP - min)) * 0.45;
     const factor = 0.5 + ((upper - min) / (HEIGHT_BP - min)) * 1;
     const shrink = factor * widthScale;
+
     return shrink;
 };
 
@@ -59,6 +64,7 @@ let flip;
 let bubbleTextCounter;
 let z;
 let wrapper;
+let wrapperHeight;
 let interval;
 let el;
 
@@ -74,9 +80,12 @@ $: cancelFn = start(id);
 
 $: frame = data.frames.find((d) => d.index === frameIndex);
 
-// $: x = `${$tween.x * scale * BASE}px`;
-$: x = `${$tween.x * 10/100 * wrapper - data.size * scale}px`;
-$: y = `${$tween.y * scale * BASE * -1}px`;
+// $: x = `${$tween.x * scale * BASE}px`
+
+//$: x = `${$tween.x * 10/100 * (wrapper - data.size * scale * 2) - data.size * scale}px`;
+
+$: x = `${$tween.x * 10/100 * wrapper - data.size/2*scale}px`;
+$: y = `${$tween.y * 1/4 * wrapperHeight * -1 * scale - data.size/2*scale}px`;
 $: s = flip ? -1 : 1;
 
 $: bgImage = `assets/${name}.png`;
@@ -225,7 +234,7 @@ onMount(() => {
 </script>
 
 
-<div bind:this={el} bind:offsetWidth={wrapper} class="{name == "floor" ? "floor sprite-wrapper" : "sprite-wrapper"}">
+<div bind:this={el} bind:offsetHeight={wrapperHeight} bind:offsetWidth={wrapper} class="{name == "floor" ? "floor sprite-wrapper" : "sprite-wrapper"}">
   {#if ["floor","cloud","land"].indexOf(name) > -1}
     <div
       class="sprite {name}"

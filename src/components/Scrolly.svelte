@@ -5,10 +5,11 @@
     import { fade } from "svelte/transition";
     import SpriteDark from "$components/SpriteDark.svelte";
     import SpriteWrapper from "$components/SpriteWrapper.svelte";
+    import viewport from "$stores/viewport.js";
 
     import FinderWindow from "$components/FinderWindow.svelte"
 	import inView from "$actions/inView.js";
-    import { groups, format } from "d3";
+    import { groups, scaleLinear } from "d3";
 
     export let copySteps;
     export let cueData;
@@ -20,6 +21,8 @@
     let test;
     let scrollValue;
     let sprites;
+
+    let scaleBase = scaleLinear().domain([1500,400]).range([0,1]).clamp(true);
 
     $: copyId = scrollValue ? scrollValue : 0;
     $: id = copySteps[copyId].id;
@@ -42,7 +45,7 @@
     on:exit={() => (test = false)}
     >
 
-    <SpriteWrapper BASE={96} bubbleText={bubbleText} id={id} sprites={sprites} cueData={cueData} sesameSprites={sesameSprites} />
+    <SpriteWrapper BASE={96-(64*scaleBase($viewport.width))} bubbleText={bubbleText} id={id} sprites={sprites} cueData={cueData} sesameSprites={sesameSprites} />
 </div>
 
 <Scrolly bind:value={scrollValue}>

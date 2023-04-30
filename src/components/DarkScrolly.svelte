@@ -70,7 +70,7 @@
     bind:this={sticky}
 >
     {#key binded}
-    <div in:fade={{ duration: 1000 }} class="montage video-wrapper">
+    <div class="montage video-wrapper">
         <!-- <div class="chooser">
             <div class="options">
                 {#key options}
@@ -83,7 +83,8 @@
                 style="display:{imageOverride.indexOf(binded) > -1 ? 'block' : 'none'};"
                 src="assets/{binded.toLowerCase().replace(" ","_").toLowerCase().replace(" ","_")}_pattern.png" alt=""
             >
-            <video 
+            <video
+                in:fade={{ duration: 1000 }} 
                 style="display:{imageOverride.indexOf(binded) > -1 ? 'none' : 'block'};"
                 src="assets/{binded.toLowerCase().replace(" ","_").replace(" ","_")}.mp4"
                 muted loop bind:this={videoEl} bind:currentTime bind:duration>
@@ -111,19 +112,22 @@
                 class="step"
                 class:active
             >
-                {#if step["type"] == "darkStep"}
-                    <p class="dark-hed">{@html step.hed}</p>
-                    {#each step.text as sectionBlockText}
-                        <p class="running-text">{@html sectionBlockText.value}</p>
-                    {/each}
-                {/if}
-                <div class="chooser"
-                    style="display:{options.length > 1 ? "block" : "none"};"
-                >
-                    <div class="options">
-                    {#key options}
-                        <ButtonSet legend={"View Dark Pattern for"} {options} bind:binded />
-                    {/key}
+                <div class="step-wrapper">
+                    {#if step["type"] == "darkStep"}
+                        <p class="dark-hed">{@html step.hed}</p>
+                        {#each step.text as sectionBlockText}
+                            <p class="running-text">{@html sectionBlockText.value}</p>
+                        {/each}
+                    {/if}
+                    <div class="chooser"
+                        style="visibility:{options.length > 1 ? "visible" : "hidden"};"
+
+                    >
+                        <div class="options">
+                        {#key options}
+                            <ButtonSet legend={"View Dark Pattern for"} {options} bind:binded />
+                        {/key}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -137,6 +141,7 @@
         max-width: 400px;
         width: 100%;
         padding: 1rem;
+        min-height: 120px;
     }
 
     .choose-title {
@@ -221,10 +226,11 @@
         aspect-ratio: 1;
         position: absolute;
         display: block;
+        z-index: -1;
     }
 
     .video-wrapper .loaded {
-        display: none;
+        display: block;
     }
 
     .white-background p {
@@ -250,8 +256,6 @@
         z-index: 100;
     }
 
-
-
     .running-text, .dark-hed{
         color: black;
         max-width: 400px;
@@ -271,4 +275,26 @@
         text-decoration: underline;
         text-decoration-color: rgba(0,0,0,.3);
     }
+
+    @media only screen and (max-width: 700px) {
+        .sticky {
+            max-width: 100%;
+            margin: 0 auto;
+            width: calc(100% - 20px);
+            z-index: -1;
+        }
+
+        .step-wrapper {
+            background-color: rgba(221,225,248,.8);
+        }
+
+        .step {
+            padding-bottom: 100vh;
+            max-width: 100%;
+        }
+
+    }
+
+
+
 </style>
