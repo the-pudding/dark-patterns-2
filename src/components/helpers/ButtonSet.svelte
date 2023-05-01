@@ -6,15 +6,16 @@
 	export let disabled = false;
 	export let binded;
 
-	let value = options.length ? options[0].value : "";
+	let value = options.length ? options[0].slug : "";
 
 	const id = `legend-${Math.floor(Math.random() * 1000000)}`;
 	const makeSlug = (str = "") => `${str}`.toLowerCase().replace(/\W/g, "");
 
 	$: optionsWithSlug = options.map((d) => ({
 		...d,
+		label: d.label,
 		val: d.value,
-		slug: makeSlug(d.value)
+		slug: makeSlug(d.slug)
 	}));
 	$: isTop = legendPosition === "top";
 

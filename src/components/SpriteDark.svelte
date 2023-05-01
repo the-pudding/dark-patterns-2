@@ -16,6 +16,8 @@ export let text;
 export let section;
 export let BASE;
 export let hideBubble;
+export let wrapper;
+export let wrapperHeight;
 // const { scale, BASE } = getContext("Game");
 
 
@@ -26,6 +28,8 @@ const MAX_SCALE = 1.3;
 const HEIGHT_BP = 960;
 
 const calcScale = (w, h, wrap) => {
+
+    console.log("wrapper calculations", wrap,wrapperHeight,name,id)
 
     if(wrap < 1500) {
       let newScale = wrap/(BASE * UNITS_X);
@@ -50,10 +54,17 @@ const calcScale = (w, h, wrap) => {
     return shrink;
 };
 
+
+$: if(el) {
+  console.log(el.offsetWidth)
+}
+
 $: mobile = $viewport.width < 500;
 $: scale = calcScale($viewport.width, $viewport.height, wrapper);
 $: margin = Math.ceil(($viewport.width - scale * BASE * UNITS_X) / 2);
+
 let scale = 1;
+let mounted = false;
 let white = "#FFFFFF";
 const FRAMERATE = 100;
 let tween = tweened({ x: 10, y: 0, r: 0 });
@@ -63,8 +74,6 @@ let frameIndex = 0;
 let flip;
 let bubbleTextCounter;
 let z;
-let wrapper;
-let wrapperHeight;
 let interval;
 let el;
 
@@ -220,6 +229,8 @@ const start = () => {
 
 onMount(() => {
 
+    mounted = true;
+
     startClickCounter();
 
     return () => {
@@ -230,102 +241,103 @@ onMount(() => {
 
 
 
-      
+      //  bind:offsetHeight={wrapperHeight} bind:offsetWidth={wrapper}
+
 </script>
 
-
-<div bind:this={el} bind:offsetHeight={wrapperHeight} bind:offsetWidth={wrapper} class="{name == "floor" ? "floor sprite-wrapper" : "sprite-wrapper"}">
-  {#if ["floor","cloud","land"].indexOf(name) > -1}
-    <div
-      class="sprite {name}"
-      style="
-      width: {["floor","land"].indexOf(name) > -1 ? "200vw" : width};
-      background-image: url({bgImage});
-      background-size: {width};
-      height: {height};
-      transform: {transform};
-      background-repeat: {["floor","land"].indexOf(name) > -1 ? "repeat" : "none"};
-      "
-    >
-    </div>
-  {:else}
-    <div
-      class="sprite"
-      data-wrapper={wrapper}
-      data-scale={scale}
-      in:fade={{ duration: 1000 }} out:fade={{ duration: 1000 }}
-      style="
-          background-image: url({bgImage});
-          width: {width};
-          background-position: {bgPos};
-          background-size: {bgSize};
-          transform: {transform};
-          height: {height};
-          z-index: {zIndex};
+<div bind:this={el}
+  class="{name == "floor" ? "floor sprite-wrapper" : "sprite-wrapper"}">
+    {#if ["floor","cloud","land"].indexOf(name) > -1}
+      <div
+        class="sprite {name}"
+        style="
+        width: {["floor","land"].indexOf(name) > -1 ? "200vw" : width};
+        background-image: url({bgImage});
+        background-size: {width};
+        height: {height};
+        transform: {transform};
+        background-repeat: {["floor","land"].indexOf(name) > -1 ? "repeat" : "none"};
         "
       >
-        {#if section == "aside_1"}
-          <button class="aside-wrapper">
-            <div class="aside-button aside-small"><span>DENY</span></div>
-            <div class="aside-button" style="margin-top: 5px;"><span>ALLOW</span></div>
-          </button>
-        {/if}
-        {#if section == "aside_2"}
-          <button class="aside-wrapper">
-            <div class="aside-button aside-flip"><span>BUY</span></div>
-          </button>
-        {/if}
-    </div>
-  {/if}
-
-  {#if name == "character"}
-    <div class:hideBubble class="bubble {section}"
-      style="
-        transform: {transform.split("scaleX")[0]};
-        margin-left: {section == "aside_1" || section == "aside_2" ? "" : width};
-        margin-bottom: {`calc(${height}*.75)`};
-        left: {section == "aside_1" || section == "aside_2" ? `calc(${width}/3)` : ""};
-        z-index: 1000000;
-      "
-    >
-
-      <span class="bubble-text {section}">
-        {#each bubbleText as span, i}
-          {#if section == "aside_2"}
-            <span class="faded-in word">
-              {#if span == "00:00:10&nbsp;"}
-                00:00:{interval}&nbsp;
-              {:else}
-                {@html span}
-              {/if}
-            </span>
-          {:else}
-            <span class={i < bubbleTextCounter ? "faded-in word" : "word"}>{@html span}</span>
+      </div>
+    {:else}
+      <div
+        class="sprite"
+        data-wrapper={wrapper}
+        data-scale={scale}
+        in:fade={{ duration: 1000 }} out:fade={{ duration: 1000 }}
+        style="
+            background-image: url({bgImage});
+            width: {width};
+            background-position: {bgPos};
+            background-size: {bgSize};
+            transform: {transform};
+            height: {height};
+            z-index: {zIndex};
+          "
+        >
+          {#if section == "aside_1"}
+            <button class="aside-wrapper">
+              <div class="aside-button aside-small"><span>DENY</span></div>
+              <div class="aside-button" style="margin-top: 5px;"><span>ALLOW</span></div>
+            </button>
           {/if}
-        {/each}
-      </span>
-      {#if section == "aside_1" || section == "aside_2"}
-        <svg class="aside-line" width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="10.6067" y="23.3347" width="3" height="3" transform="rotate(-45 10.6067 23.3347)" fill="white" fill-opacity="0.5"/>
-          <rect x="10.6067" y="19.092" width="3" height="3" transform="rotate(-45 10.6067 19.092)" fill="white" fill-opacity="0.5"/>
-          <rect x="10.6067" y="14.8494" width="3" height="3" transform="rotate(-45 10.6067 14.8494)" fill="white" fill-opacity="0.5"/>
-          <rect x="10.6067" y="10.6067" width="3" height="3" transform="rotate(-45 10.6067 10.6067)" fill="white" fill-opacity="0.5"/>
-          <rect x="10.6067" y="6.36401" width="3" height="3" transform="rotate(-45 10.6067 6.36401)" fill="white" fill-opacity="0.5"/>
-          <rect x="10.6067" y="2.12134" width="3" height="3" transform="rotate(-45 10.6067 2.12134)" fill="white" fill-opacity="0.5"/>
-        </svg>
-      {/if}
-        
-      <svg class="pointer-bottom {section}" width="45px" height="31px" viewBox="0 0 45 31" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-          <g class="fill-here" transform="translate(-352.000000, -6100.000000)" style="--fillColor:{white};">
-            <g transform="translate(347.000000, 6011.000000)">
-              <polygon transform="translate(25.000000, 110.500000) rotate(245.000000) translate(-25.000000, -110.500000) " points="25 89 38 132 12 132"></polygon>
+          {#if section == "aside_2"}
+            <button class="aside-wrapper">
+              <div class="aside-button aside-flip"><span>BUY</span></div>
+            </button>
+          {/if}
+      </div>
+    {/if}
+
+    {#if name == "character"}
+      <div class:hideBubble class="bubble {section}"
+        style="
+          transform: {transform.split("scaleX")[0]};
+          margin-left: {section == "aside_1" || section == "aside_2" ? "" : width};
+          margin-bottom: {`calc(${height}*.75)`};
+          left: {section == "aside_1" || section == "aside_2" ? `calc(${width}/3)` : ""};
+          z-index: 1000000;
+        "
+      >
+
+        <span class="bubble-text {section}">
+          {#each bubbleText as span, i}
+            {#if section == "aside_2"}
+              <span class="faded-in word">
+                {#if span == "00:00:10&nbsp;"}
+                  00:00:{interval}&nbsp;
+                {:else}
+                  {@html span}
+                {/if}
+              </span>
+            {:else}
+              <span class={i < bubbleTextCounter ? "faded-in word" : "word"}>{@html span}</span>
+            {/if}
+          {/each}
+        </span>
+        {#if section == "aside_1" || section == "aside_2"}
+          <svg class="aside-line" width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10.6067" y="23.3347" width="3" height="3" transform="rotate(-45 10.6067 23.3347)" fill="white" fill-opacity="0.5"/>
+            <rect x="10.6067" y="19.092" width="3" height="3" transform="rotate(-45 10.6067 19.092)" fill="white" fill-opacity="0.5"/>
+            <rect x="10.6067" y="14.8494" width="3" height="3" transform="rotate(-45 10.6067 14.8494)" fill="white" fill-opacity="0.5"/>
+            <rect x="10.6067" y="10.6067" width="3" height="3" transform="rotate(-45 10.6067 10.6067)" fill="white" fill-opacity="0.5"/>
+            <rect x="10.6067" y="6.36401" width="3" height="3" transform="rotate(-45 10.6067 6.36401)" fill="white" fill-opacity="0.5"/>
+            <rect x="10.6067" y="2.12134" width="3" height="3" transform="rotate(-45 10.6067 2.12134)" fill="white" fill-opacity="0.5"/>
+          </svg>
+        {/if}
+          
+        <svg class="pointer-bottom {section}" width="45px" height="31px" viewBox="0 0 45 31" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+          <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+            <g class="fill-here" transform="translate(-352.000000, -6100.000000)" style="--fillColor:{white};">
+              <g transform="translate(347.000000, 6011.000000)">
+                <polygon transform="translate(25.000000, 110.500000) rotate(245.000000) translate(-25.000000, -110.500000) " points="25 89 38 132 12 132"></polygon>
+              </g>
             </g>
           </g>
-        </g>
-      </svg>  
-    </div>
-  {/if}
+        </svg>  
+      </div>
+    {/if}
 </div>
 
 <!-- <div class="sprite-sandbox">

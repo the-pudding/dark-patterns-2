@@ -21,7 +21,7 @@
     let test;
     let scrollValue;
     let sprites;
-
+    let clientWidth;
     let scaleBase = scaleLinear().domain([1500,400]).range([0,1]).clamp(true);
 
     $: copyId = scrollValue ? scrollValue : 0;
@@ -31,10 +31,6 @@
     $: sprites = groups(cues, (d) => {
         return d.key
     });
-
-
-    $: console.log(copy["companies"])
-
 </script>
 
 <div
@@ -44,7 +40,6 @@
     on:enter={() => (test = true)}
     on:exit={() => (test = false)}
     >
-
     <SpriteWrapper BASE={96-(64*scaleBase($viewport.width))} bubbleText={bubbleText} id={id} sprites={sprites} cueData={cueData} sesameSprites={sesameSprites} />
 </div>
 
@@ -108,10 +103,10 @@
 
     .company-image img {
         margin: 0 auto;
-        padding: 2rem;
         justify-content: center;
         z-index: 100;
-        margin-top: 25px;
+        margin: 2rem;
+        margin-top: 50px;
     }
     .sticky {
 		display: flex;
@@ -145,6 +140,7 @@
 
     .sprite-container {
         width: 100%;
+        display: block;
         height: 100%;
         max-height: 500px;
         position: absolute;

@@ -94,6 +94,7 @@
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         margin: 0 auto;
+        text-align: left;
     }
 
     .step:first-of-type {

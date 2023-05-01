@@ -8,6 +8,7 @@
 	import spriteData from "$data/sprites.csv";
 	import Sprite from "./Sprite.svelte";
 
+
 	// import Footer from "$components/Footer.svelte";
 
 	const copy = getContext("copy");
@@ -102,4 +103,3 @@
 	<Story {copy} {sesameSprites}/>
 {/if}
 <!-- <Demo /> -->
-<!-- <Footer /> -->

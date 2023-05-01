@@ -17,16 +17,21 @@
 
     let imageOverride = ["Hulu","Netflix","Paramount Plus"];
 
+    let imageCrossWalk = ["savage_fenty_2"];
+
+
+
 	$: widthElapsed = toPercent(progress, duration);
 	$: progress = currentTime || 0;
 
     $: scrollOverride = scrollValue || 0;
 
-
-    $: console.log(scrollValue);
-
     $: options = scrollOverride > -1 ? copySteps[scrollOverride]["options"].split(",").map(d => {
-        return {"value": d};
+        console.log(d)
+        if(d == "Savage Fenty 2") {
+            return {"value": d,"label":"Savage Fenty"};
+        }
+        return {"value": d,"slug":d};
     }) : [];
 
     $: binded, loadVideo();
@@ -34,7 +39,6 @@
     $: blockId == "darkTypes", loadVideo();
 
     async function loadVideo(){
-        console.log(binded,videoEl)
         if(binded && videoEl){
             videoEl.currentTime = 0;
             loaded = false;
@@ -105,12 +109,13 @@
     {/key}
 </div>
 
-<ScrollyHelper bind:value={scrollValue}>
+<ScrollyHelper top={-100} bind:value={scrollValue}>
     {#each copySteps as step, i}
         {@const active = scrollValue === i}
             <div
                 class="step"
                 class:active
+                style="padding-top:{i == 0 ? "0px" : ''}"
             >
                 <div class="step-wrapper">
                     {#if step["type"] == "darkStep"}
@@ -120,7 +125,7 @@
                         {/each}
                     {/if}
                     <div class="chooser"
-                        style="visibility:{options.length > 1 ? "visible" : "hidden"};"
+                        style="visibility:{options.length > 1 ? "" : "hidden"};"
 
                     >
                         <div class="options">
@@ -142,6 +147,11 @@
         width: 100%;
         padding: 1rem;
         min-height: 120px;
+        visibility: hidden;
+    }
+
+    .active .chooser {
+        visibility: visible;
     }
 
     .choose-title {
@@ -254,6 +264,7 @@
         min-height: 100vh;
         max-width: 50%;
         z-index: 100;
+        padding-top: 50vh;
     }
 
     .running-text, .dark-hed{

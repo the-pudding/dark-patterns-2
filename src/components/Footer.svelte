@@ -71,11 +71,8 @@
 
 <style>
 	footer {
-		background-color: var(--color-fg);
-		color: var(--color-bg);
-		font-family: var(--sans);
+		font-family: "CozetteVector","sans";
 		padding: 3em 1em;
-		margin-top: 3em;
 	}
 
 	a,

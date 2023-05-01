@@ -121,12 +121,12 @@ h2 {
 	-webkit-text-fill-color: #25304F;
 }
 
-#content .active .sprite-sandbox {
-	display: block;
-}
-
 #content swiper-slide {
 	width: auto;
+}
+
+#content .active .spriteOn {
+	display: block;
 }
 
 .pull {
@@ -136,6 +136,10 @@ h2 {
     font-size: 24px;
     line-height: 1.5;
 	margin-bottom: 50px;
+}
+
+.results {
+	padding-bottom: 100px;
 }
 
 @media only screen and (max-width: 1000px) {

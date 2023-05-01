@@ -17,7 +17,7 @@
     import RefundTable from "$components/RefundTable.svelte"
     import GoDark from "$components/GoDark.svelte";
     import { groups, format } from "d3";
-
+    import Footer from "$components/Footer.svelte";
     import { onMount, setContext, getContext } from "svelte";
     import cueData from "$data/cues.js";
 
@@ -25,12 +25,16 @@
     export let copy;
 
     let darken = 0;
-    let toDrop = ["notes","companies"]
+    let toDrop = ["notes","companies",""]
     let blocks;
     let test;
+
     blocks = Object.keys(copy).filter(d => {
-        return toDrop.indexOf(d) == -1;
+        return toDrop.indexOf(d) == -1 && d.length > 1;
     });
+
+    
+
     
     let scrollValue;
     let scale = writable();
@@ -61,8 +65,8 @@
         return shrink;
     };
     
-
-    $: console.log(darken)
+    console.log(blocks)
+    
     $: mobile = !$mq.lg;
     $: scale.set(calcScale($viewport.width, $viewport.height));
     $: margin = Math.ceil(($viewport.width - $scale * BASE * UNITS_X) / 2);
@@ -247,7 +251,7 @@
             </div>
         {/each}
     </ScrollyHelper>
-
+    <Footer />
 </div>
 
 <style>
