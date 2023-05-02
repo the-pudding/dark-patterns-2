@@ -6,8 +6,7 @@
     let threshold = 1;
     let top = 1;
     $: darken = clamp(progress,0,1);
-
-    const clamp = (num, min, max) => Math.round(Math.min(Math.max(num, min), max)*100);
+    const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 
 </script>
     <div class="hi">

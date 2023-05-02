@@ -3,6 +3,7 @@
 	import data from "$data/refund.csv";
 
 	export let copy;
+	export let blockId;
 
 	let columns = Object.keys(data[0]).map(d => {
 		return {label: d, prop:d, type:"text", sort:false};
@@ -13,7 +14,7 @@
 </script>
 
 <section class="demo-table">
-	<SortTable {rows} {columns} {copy}/>
+	<SortTable {rows} {columns} {copy} {blockId}/>
 </section>
 
 <style>

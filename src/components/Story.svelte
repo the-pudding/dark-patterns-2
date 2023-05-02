@@ -25,22 +25,20 @@
     export let copy;
 
     let darken = 0;
-    let toDrop = ["notes","companies",""]
+    let toDrop = ["notes","companies","","aria-video"]
     let blocks;
     let test;
 
     blocks = Object.keys(copy).filter(d => {
         return toDrop.indexOf(d) == -1 && d.length > 1;
     });
-
-    
-
     
     let scrollValue;
     let scale = writable();
     let section = "aside_1"
     let sliderCount = 0;
     let sliderInterval;
+    let preloaded = false;
 
     const UNITS_X = 10;
     const UNITS_Y = 4;
@@ -64,8 +62,9 @@
 
         return shrink;
     };
-    
-    console.log(blocks)
+
+    $: console.log(darken)
+    $: console.log(preloaded)
     
     $: mobile = !$mq.lg;
     $: scale.set(calcScale($viewport.width, $viewport.height));
@@ -95,14 +94,20 @@
     }
 
     onMount(() => {
-        preload(cueData);
+        async function foo() {
+            preloaded = await preload(cueData);
+        }
+        
+        foo();
     });
 
 </script>
 
-<div class="wrapper {`${blockId}inView`}">
+<div 
+    class="wrapper {`${blockId}inView`}"
+>
     <div class="go-dark"
-        style="opacity:{blockId == "title" ? darken/100 : 0};"
+        style="opacity:{blockId == "title" ? darken : 0};"
     >
     </div>
     <div class="grid-life">
@@ -112,12 +117,12 @@
 
         </div>
         <div class="dungeon-black">
-
         </div>
     </div>
 
+    <div class:preloaded class="loading-header"><h3>Loading...</h3></div>
 
-
+    {#if preloaded}
     <ScrollyHelper bind:value={scrollValue}>
         {#each blocks as block, i}
             {@const active = scrollValue === i}
@@ -134,7 +139,6 @@
                     use:inView
                     on:enter={() => (test = "intro")}
                     />
-
                 {:else if block == "title"}
                     <div
                     id="detect-start"
@@ -155,9 +159,9 @@
                     <Montage copySteps={copy[block]}/>
  
                 {:else if block == "darkTypes"}
-                    <DarkScrolly {blockId} copySteps={copy[block]}/>
+                    <DarkScrolly ariaVideoKey={new Map(copy["aria-video"].map(d => [d.id, d.text]))} {blockId} copySteps={copy[block]}/>
                 {:else if block == "vimeo"}
-                    <Vimeo {copy} {cueData} id={copy[block][0]["id"]} {sesameSprites} copySteps={copy[block]} />
+                    <Vimeo {blockId} ariaVideoKey={new Map(copy["aria-video"].map(d => [d.id, d.text]))} {copy} {cueData} id={copy[block][0]["id"]} {sesameSprites} copySteps={copy[block]} />
                 {/if}
 
                 {#each copy[block] as sectionBlock}
@@ -166,7 +170,7 @@
                         class="section section-intro"
                         >
                             {#if sectionBlock.id == "hed"}
-                                <h1>{@html sectionBlock.text}</h1>
+                                <h1 class="hed">{@html sectionBlock.text}</h1>
                             {:else if sectionBlock.id == "dek"}
                                 <h3>{@html sectionBlock.text}</h3>
                             {:else if sectionBlock.id == "byline"}
@@ -226,19 +230,24 @@
                                     <p class="running-text">{@html sectionBlockText.value}</p>
                                     {#if block == "results"}
                                         {#if sectionBlock.id == "first" && n == 1}
-                                            <RefundTable copy={copy["companies"]}/>
+                                            <RefundTable {blockId} copy={copy["companies"]}/>
                                         {/if}
                                         {#if sectionBlock.id == "third" && n == 2}
-                                            <Shame />
+                                            <Shame {blockId} />
                                         {/if}
                                     {/if}
                                 {/each}
                             {:else if sectionBlock["type"] == "graphic-company-slider"}
-                                <div class="slider-wrapper" style="width:400px;">
+                                <div class="slider-wrapper" style="">
                                     <div class="companies" style="transform:translate(-{sliderCount*400}px,0)">
                                         {#each copy["companies"].filter(d => d.id != "null") as image}
                                             <div class="company-image" style="width:400px;">
-                                                <img style="width:{image.w}px; height:{image.h}px" src="assets/{image.id}.png" />
+                                                {#if blockId == "experiment"}
+                                                    <img 
+                                                        alt="{image.id} logo"
+                                                        style="width:{image.w}px; height:{image.h}px" src="assets/{image.id}.png" 
+                                                    />
+                                                {/if}
                                             </div>
                                         {/each}
                                     </div>
@@ -250,11 +259,13 @@
                 {/each}
             </div>
         {/each}
-    </ScrollyHelper>
+    </ScrollyHelper> 
     <Footer />
+    {/if}
 </div>
 
 <style>
+    
     h4 {
         font-family: 'CozetteVector';
         text-align: center;
@@ -307,6 +318,14 @@
         margin: 0 auto;
     }
 
+    .loading-header {
+        height: 100vh;
+        width: 100vw;
+        background-color: #f4d2cb;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+    }
 
     
 
@@ -421,7 +440,7 @@
     }
 
     .slider-wrapper {
-        width: 100%;
+        width: calc(100% - 20px);
         max-width: 400px;
         height: 200px;
         position: relative;
@@ -453,12 +472,30 @@
         background-size: 380px 380px;
         opacity: .3;
         position: fixed;
+        display: none;
+    }
+
+    .vimeoinView .dungeon-tile {
+        display: block;
     }
 
     .dungeon-black {
         opacity: 1;
         background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #151517 100%);
         position: fixed;
+    }
+
+    .hed {
+        width: calc(100% - 20px);
+        margin: 0 auto;
+    }
+
+    .hed::selection {
+        color: white;
+    }
+
+    .preloaded {
+        display: none;
     }
 
 

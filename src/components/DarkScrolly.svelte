@@ -3,46 +3,64 @@
     import ButtonSet from "./helpers/ButtonSet.svelte";
     import DemoButtonSet from "$components/demo/Demo.ButtonSet.svelte";
     import { fade } from 'svelte/transition';
+	import { select } from "d3";
+    import { onMount, setContext, getContext } from "svelte";
+
 
     export let copySteps;
     export let blockId;
+    export let ariaVideoKey;
 
     let videoEl;
     let currentTime = 0;
     let sticky;
+    let videoTimeout;
     let scrollValue;
 	let duration;
-    let binded = "savage_fenty";
+    let binded = "Savage Fenty";
     let loaded = false;
 
     let imageOverride = ["Hulu","Netflix","Paramount Plus"];
 
     let imageCrossWalk = ["savage_fenty_2"];
+    let selectedCompany;
 
-
-
-	$: widthElapsed = toPercent(progress, duration);
+    
+    $: widthElapsed = toPercent(progress, duration);
 	$: progress = currentTime || 0;
 
     $: scrollOverride = scrollValue || 0;
 
-    $: options = scrollOverride > -1 ? copySteps[scrollOverride]["options"].split(",").map(d => {
-        console.log(d)
-        if(d == "Savage Fenty 2") {
-            return {"value": d,"label":"Savage Fenty"};
-        }
-        return {"value": d,"slug":d};
-    }) : [];
+    $: scrollOverride, getVideo();
 
-    $: binded, loadVideo();
+    // $: options = scrollOverride > -1 ? copySteps[scrollOverride]["options"].split(",").map(d => {
+    //     console.log(d)
+    //     if(d == "Savage Fenty 2") {
+    //         return {"value": d,"label":"Savage Fenty"};
+    //     }
+    //     return {"value": d,"slug":d};
+    // }) : [];
+
+    $: selectedCompany, loadVideo();
 
     $: blockId == "darkTypes", loadVideo();
 
+    $: console.log(selectedCompany)
+
+    $: binded, selectedCompany = binded;
+
+    async function getVideo(){
+        let activeOptions = copySteps[scrollOverride]["options"].split(",").map(d => { return d});
+        selectedCompany = activeOptions[0];
+        console.log(selectedCompany, imageOverride.indexOf(selectedCompany))
+    }
+
     async function loadVideo(){
-        if(binded && videoEl){
+        if(binded && videoEl && imageOverride.indexOf(selectedCompany) == -1 && blockId == "darkTypes"){
+            clearTimeout(videoTimeout);
             videoEl.currentTime = 0;
             loaded = false;
-            let src = `assets/${binded.toLowerCase().replace(" ","_").replace(" ","_")}.mp4`;
+            let src = `assets/${selectedCompany.toLowerCase().replace(" ","_").replace(" ","_")}.mp4`;
             const request = new XMLHttpRequest();
             request.open("GET", src, true);
             request.responseType = "blob";
@@ -53,11 +71,9 @@
                     videoEl.src = videoUrl;
                     videoEl.currentTime = 0;
                     
-                    setTimeout(function() {
+                    videoTimeout = setTimeout(function() {
                         videoEl.play();
                     }, 1000)
-                    
-                    
                 }
             };
             request.send();
@@ -73,30 +89,27 @@
     class="sticky"
     bind:this={sticky}
 >
-    {#key binded}
+    {#key selectedCompany}
     <div class="montage video-wrapper">
-        <!-- <div class="chooser">
-            <div class="options">
-                {#key options}
-                    <ButtonSet legend={"View Dark Pattern for"} {options} bind:binded />
-                {/key}
-            </div>
-        </div> -->
-        {#if binded}
-            <img 
-                style="display:{imageOverride.indexOf(binded) > -1 ? 'block' : 'none'};"
-                src="assets/{binded.toLowerCase().replace(" ","_").toLowerCase().replace(" ","_")}_pattern.png" alt=""
+        {#if imageOverride.indexOf(selectedCompany) > -1}
+            <img
+                src="assets/{selectedCompany.toLowerCase().replace(" ","_").toLowerCase().replace(" ","_")}_pattern.png"
+                alt="image showing emails from {selectedCompany} after unsubscribing"
             >
-            <video
-                in:fade={{ duration: 1000 }} 
-                style="display:{imageOverride.indexOf(binded) > -1 ? 'none' : 'block'};"
-                src="assets/{binded.toLowerCase().replace(" ","_").replace(" ","_")}.mp4"
-                muted loop bind:this={videoEl} bind:currentTime bind:duration>
-            </video>
         {/if}
+            <video
+                muted loop preload="none"
+                playsinline
+                webkit-playsinline="webkit-playsinline"
+                in:fade={{ duration: 1000 }} 
+                style="display:{imageOverride.indexOf(selectedCompany) > -1 ? 'none' : 'block'};"
+                bind:this={videoEl} bind:currentTime bind:duration
+                aria-label={ariaVideoKey.get(selectedCompany)}
+            >
+            </video>
         <div
             class="progress"
-            style="display:{imageOverride.indexOf(binded) > -1 ? "none" : ''};"
+            style="display:{imageOverride.indexOf(selectedCompany) > -1 ? "none" : ''};"
         >
 			<span style:width={widthElapsed} class="elapsed" />
 			<span class="cut">
@@ -112,10 +125,17 @@
 <ScrollyHelper top={-100} bind:value={scrollValue}>
     {#each copySteps as step, i}
         {@const active = scrollValue === i}
+
+        {@const options = step.options.split(",").map(d => {
+            if(d == "Savage Fenty 2") {
+                return {"value": d,"label":"Savage Fenty"};
+            }
+            return {"value": d,"slug":d}; })}
+
             <div
                 class="step"
                 class:active
-                style="padding-top:{i == 0 ? "0px" : ''}"
+                style="padding-top:{i == 0 ? "0px" : ''}; padding-bottom:{i == (copySteps.length - 1) ? "50vh" : ''};"
             >
                 <div class="step-wrapper">
                     {#if step["type"] == "darkStep"}
@@ -126,12 +146,9 @@
                     {/if}
                     <div class="chooser"
                         style="visibility:{options.length > 1 ? "" : "hidden"};"
-
                     >
                         <div class="options">
-                        {#key options}
-                            <ButtonSet legend={"View Dark Pattern for"} {options} bind:binded />
-                        {/key}
+                            <ButtonSet {selectedCompany} legend={"View Dark Pattern for"} {options} bind:binded />
                         </div>
                     </div>
                 </div>

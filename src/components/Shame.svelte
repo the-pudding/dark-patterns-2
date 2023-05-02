@@ -1,9 +1,14 @@
 <script>
     import { register } from 'swiper/element/bundle';
     // register Swiper custom elements
+
+    export let blockId;
+
     register();
-    let images = [1,2,3,4]
+    let images = [1,2,3,4,5,6,7,8,9,10,11]
     let swiperEl;
+    let firstSlide = false;
+
     async function next(){
         swiperEl.swiper.slideNext();
     }
@@ -13,20 +18,21 @@
 
 </script>
 
-<div class="slider-container">
-    <p class="">Cancel-shaming Examples</p>
+{#if blockId == "darkTypes"}
+    <div class="slider-container">
+        <p class="">Cancel-shaming Examples</p>
 
-    <swiper-container free-mode="true" slides-per-view="auto" bind:this={swiperEl}>
-        {#each images as image}
-            <swiper-slide><img src="assets/cancel_{image}.png" alt=""></swiper-slide>
-        {/each}
-    </swiper-container>
-    <div class="examples">
-        <button on:click={() => previous()}>Previous Example</button>
-        <button on:click={() => next()}>Next Example</button>
+        <swiper-container slides-per-view="auto" bind:this={swiperEl}>
+            {#each images as image}
+                <swiper-slide><img src="assets/cancel_{image}.png" alt=""></swiper-slide>
+            {/each}
+        </swiper-container>
+        <div class="examples">
+            <button class:firstSlide on:click={() => previous()}>Previous Example</button>
+            <button on:click={() => next()}>Next Example</button>
+        </div>
     </div>
-    
-</div>
+{/if}
 
 
 
@@ -68,7 +74,7 @@
 
     @media only screen and (max-width: 600px) {
         img {
-            width: 100vw;
+            width: calc(100vw - 40px);
             padding: 10px;
         }
     }

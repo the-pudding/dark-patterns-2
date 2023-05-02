@@ -5,8 +5,10 @@
 	export let labelClass = "";
 	export let disabled = false;
 	export let binded;
+	export let selectedCompany;
 
-	let value = options.length ? options[0].slug : "";
+	//let value = options.length ? options[0].slug : "";
+	let value = selectedCompany ? selectedCompany : options[0].value;
 
 	const id = `legend-${Math.floor(Math.random() * 1000000)}`;
 	const makeSlug = (str = "") => `${str}`.toLowerCase().replace(/\W/g, "");
@@ -44,7 +46,7 @@
 						{disabled}
 						bind:group={value}
 					/>
-					<label class="option {labelClass}" for={`${id}-${option.slug}`}>
+					<label class="option {option.value == selectedCompany ? 'selected' : ''} {labelClass}" for={`${id}-${option.slug}`}>
 						{option.label || option.value}
 					</label>
 				</div>
@@ -123,16 +125,11 @@
 		border-left-width: 0;
 	}
 
-	input[type="radio"] + label {
-		color: rgba(0,0,0,.5);
-	}
-
 	input[type="radio"]:checked + label,
 	input[type="radio"]:checked:hover + label {
-		color: rgba(0,0,0,1);
-		text-decoration: underline;
-        text-decoration-color: rgba(0,0,0,.3);
 	}
+
+
 
 	input[type="radio"]:hover + label {
 		color: rgba(0,0,0,.5);
@@ -140,11 +137,18 @@
 
 	input[type="radio"]:focus + label {
 		display: block;
+		box-shadow: 0 0 4px 0 var(--color-focus);
 	}
 
 	input[type="radio"]:disabled + label {
 		color: var(--color-gray-700);
 		background: var(--color-gray-500);
 		cursor: not-allowed;
+	}
+
+	.selected {
+		color: rgba(0,0,0,1);
+		text-decoration: underline;
+        text-decoration-color: rgba(0,0,0,.3);
 	}
 </style>

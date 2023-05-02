@@ -7,6 +7,7 @@
     import SpriteWrapper from "$components/SpriteWrapper.svelte";
     import vimeo_1 from "$svg/vimeo_1_2.svg"
     import viewport from "$stores/viewport.js";
+    import { onMount } from "svelte";
 
     import FinderWindow from "$components/FinderWindow.svelte"
 	import inView from "$actions/inView.js";
@@ -17,6 +18,8 @@
     export let cueData;
     export let sesameSprites;
     export let copy;
+    export let ariaVideoKey;
+    export let blockId;
 
     let currentTime = 0;
     let currentTimeTwo = 0;
@@ -29,8 +32,14 @@
     let scrollValue;
     let sprites;
     let floatBottom = true;
+    let mounted = false;
+    let explainerEl;
+
+    let vimeo_free;
+    let vimeo_explainer;
     
     let scaleBase = scaleLinear().domain([1500,400]).range([0,1]).clamp(true);
+    
 
     $: widthElapsedTwo = toPercent(progressTwo, durationTwo);
     $: progressTwo = currentTimeTwo || 0;
@@ -46,9 +55,15 @@
 
     const toPercent = (a, b = 1) => `${(a / b) * 100}%`;
 
+    onMount(() => {
+        console.log(ariaVideoKey.get("New York Times"))
+        vimeo_free = ariaVideoKey.get("Vimeo Free");
+        vimeo_explainer = ariaVideoKey.get("Vimeo Explainer");
+        mounted = true;
+    });
 
 </script>
-
+{#if mounted}
 <div
     class="sticky"
     bind:this={sticky}
@@ -63,6 +78,8 @@
 
 </div>
 
+
+
 <Scrolly bind:value={scrollValue}>
     {#each copySteps as step, i}
         {@const stepId = id === "intro" && i === 0 ? "scroll-to-start" : null}
@@ -75,18 +92,30 @@
         >
             {#each step.body as bodyText, n}
                 <p class="running-text  {i} {n}">{@html bodyText.value}</p>
-                {#if i == 0 && n == 1}
+                {#if i == 0 && n == 1 && blockId == "vimeo"}
                     <div class="vimeo-image-wrapper">
-                        <img src="assets/vimeo_1.png" alt="">
+                        <img src="assets/vimeo_1.png" 
+                            alt="Vimeo&rsquo;s pricing plans, which frame the payments as monthly, but are actually annual contracts. The month-to-month plans are obscured in the design behind a small drop-down menu."
+                        >
                         <div class="svg">
                             {@html vimeo_1}
                         </div>
                     </div>
                 {/if}
-                {#if i == 1 && n == 0}
+                {#if i == 1 && n == 0 && blockId == "vimeo"}
                     <div class="vimeo-explain-wrapper">
                         Vimeo&rsquo;s Dark Patterns when Canceling
-                        <video muted autoplay loop src="assets/vimeo_explainer.mp4" bind:currentTime={currentTimeTwo} bind:duration={durationTwo} alt=""></video>
+                        <video 
+                            muted loop
+                            autoplay
+                            playsinline
+                            webkit-playsinline="webkit-playsinline"
+                            src="assets/vimeo_explainer.mp4"
+                            bind:this={explainerEl}
+                            bind:currentTime={currentTimeTwo} bind:duration={durationTwo}
+                            aria-label="{vimeo_explainer}"
+                        >
+                        </video>
                         <div class="progress">
                             <span style:width={widthElapsedTwo} class="elapsed" />
                             <span class="cut">
@@ -95,10 +124,16 @@
                     </div>
                 {/if}
 
-                {#if i == 2 && n == 2}
+                {#if i == 2 && n == 2 && blockId == "vimeo"}
                     <div class="vimeo-free-wrapper">
                         Where Vimeo hides its free version
-                        <video muted autoplay loop src="assets/vimeo_free.mp4" bind:currentTime bind:duration alt=""></video>
+                        <video muted loop
+                            playsinline
+                            autoplay
+                            webkit-playsinline="webkit-playsinline"
+                            src="assets/vimeo_free.mp4" bind:currentTime bind:duration
+                            aria-label="{vimeo_free}"
+                        ></video>
                         <div class="progress">
                             <span style:width={widthElapsed} class="elapsed" />
                             <span class="cut">
@@ -111,7 +146,7 @@
         </div>
     {/each}
 </Scrolly>
-
+{/if}
 <style>
 
     .sticky {

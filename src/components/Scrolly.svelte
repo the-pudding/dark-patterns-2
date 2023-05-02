@@ -56,14 +56,14 @@
             {#if i == 1}
                 <div
                     use:inView={{ progress: true }}
-                    on:progress={(e) => console.log()}    
-                    class="company-scroll"
-                    
+                    class="company-scroll"                    
                 >
                     {#each copy["companies"].filter(d => d.id != "null") as image}
                         <div class="company-image" style="margin-left:{Math.random()*90}%; width:{image.w}px">
                             <FinderWindow />
-                            <img src="assets/{image.id}.png" />
+                            {#if active}
+                                <img src="assets/{image.id}.png" alt="{image.id} logo"/>
+                            {/if}
                         </div>
                     {/each}
                 </div>
@@ -105,8 +105,9 @@
         margin: 0 auto;
         justify-content: center;
         z-index: 100;
-        margin: 2rem;
+        width: calc(100% - 50px);
         margin-top: 50px;
+        margin-bottom: 30px;
     }
     .sticky {
 		display: flex;

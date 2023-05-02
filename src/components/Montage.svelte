@@ -18,7 +18,8 @@
 >
     <div 
         class="montage {scrollValue == 0 ? 'visible' : ''}"
-        style ="background-image: url('{base}/assets/montage.png');"
+        style ="background-image: url('assets/montage.png');"
+        role="img" aria-label="Assorment of screenshots from sites we reviewed for dark patterns"
     >
     </div>
 </div>

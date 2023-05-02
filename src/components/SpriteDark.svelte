@@ -29,8 +29,6 @@ const HEIGHT_BP = 960;
 
 const calcScale = (w, h, wrap) => {
 
-    console.log("wrapper calculations", wrap,wrapperHeight,name,id)
-
     if(wrap < 1500) {
       let newScale = wrap/(BASE * UNITS_X);
       return Math.min(1.1,Math.max(newScale,.5));
@@ -53,11 +51,6 @@ const calcScale = (w, h, wrap) => {
 
     return shrink;
 };
-
-
-$: if(el) {
-  console.log(el.offsetWidth)
-}
 
 $: mobile = $viewport.width < 500;
 $: scale = calcScale($viewport.width, $viewport.height, wrapper);
@@ -277,15 +270,15 @@ onMount(() => {
           "
         >
           {#if section == "aside_1"}
-            <button class="aside-wrapper">
+            <div class="aside-wrapper">
               <div class="aside-button aside-small"><span>DENY</span></div>
               <div class="aside-button" style="margin-top: 5px;"><span>ALLOW</span></div>
-            </button>
+            </div>
           {/if}
           {#if section == "aside_2"}
-            <button class="aside-wrapper">
+            <div class="aside-wrapper">
               <div class="aside-button aside-flip"><span>BUY</span></div>
-            </button>
+            </div>
           {/if}
       </div>
     {/if}

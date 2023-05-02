@@ -5,9 +5,9 @@
 	export let caption = "";
 	export let rows = []; // [{ class, style }]
 	export let columns = []; // [{ label, prop, sort = true, type = "text", dir = undefined, sortFn: undefined }];
-
+	export let blockId;
 	export let copy;
-
+	
 	let width = 150;
 	
 	const dispatch = createEventDispatcher();
@@ -100,15 +100,26 @@
 							{#if companyLookup.get(r[prop]).w > 350}
 								<span>{r[prop]}</span>
 							{:else}
-								<div class="img-wrapper"><img class={companyLookup.get(r[prop]).id} alt="{r[prop]}" src="assets/{companyLookup.get(r[prop]).id}.png"></div>
+								<div class="img-wrapper">
+									{#if blockId == "results"}
+										<img
+											alt="{companyLookup.get(r[prop]).id} logo" 
+											class={companyLookup.get(r[prop]).id}
+											src="assets/{companyLookup.get(r[prop]).id}.png"
+										>
+									{/if}
+								</div>
 							{/if}
 							
 						{:else if r[prop] == "FALSE"}
 							<div class="x">
-								<img alt="Savage Fenty" src="assets/x.png">
+								<img 
+									alt="false, x symbol"
+									src="assets/x.png">
 							</div>
 						{:else if r[prop] == "TRUE"}
-							<div class="x"><img alt="Savage Fenty" src="assets/check.png"></div>
+							<div class="x">
+								<img alt="true, check symbol" src="assets/check.png"></div>
 						{:else}
 							{@html r[prop]}
 						{/if}
