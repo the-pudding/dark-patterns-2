@@ -114,8 +114,10 @@
     <div class="grid-life">
     </div>
     <div class="dungeon">
-        <div class="dungeon-tile">
-
+        <div
+            style ="background-image: url('assets/tile.jpg');"
+            class="dungeon-tile"
+        >
         </div>
         <div class="dungeon-black">
         </div>
@@ -515,7 +517,6 @@
     }
 
     .dungeon-tile {
-        background-image: url('assets/tile.jpg');
         background-repeat: repeat;
         background-size: 380px 380px;
         opacity: .3;
