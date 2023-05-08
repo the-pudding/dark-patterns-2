@@ -5,7 +5,19 @@
     export let blockId;
 
     register();
-    let images = [1,2,3,4,5,6,7,8,9,10,11]
+    let images = [
+        "Paramount Plus website prompt at cancellation to get 1 month free if you do not cancel",
+        "website prompt at cancellation",
+        "website prompt at cancellation",
+        "website prompt at cancellation",
+        "website prompt at cancellation",
+        "website prompt at cancellation",
+        "website prompt at cancellation",
+        "website prompt at cancellation",
+        "website prompt at cancellation",
+        "website prompt at cancellation",
+        "website prompt at cancellation"
+    ];
     let swiperEl;
     let firstSlide = false;
 
@@ -18,21 +30,21 @@
 
 </script>
 
-{#if blockId == "darkTypes"}
-    <div class="slider-container">
-        <p class="">Cancel-shaming Examples</p>
+<div class="slider-container">
+    <p class="">Cancel-shaming Examples</p>
 
-        <swiper-container slides-per-view="auto" bind:this={swiperEl}>
-            {#each images as image}
-                <swiper-slide><img src="assets/cancel_{image}.png" alt=""></swiper-slide>
-            {/each}
-        </swiper-container>
-        <div class="examples">
-            <button class:firstSlide on:click={() => previous()}>Previous Example</button>
-            <button on:click={() => next()}>Next Example</button>
-        </div>
+    <swiper-container slides-per-view="auto" bind:this={swiperEl}>
+        {#each images as image, i}
+            <swiper-slide>
+                <img src="assets/cancel_{i+1}.jpg" alt={image}>
+            </swiper-slide>
+        {/each}
+    </swiper-container>
+    <div class="examples">
+        <button class:firstSlide on:click={() => previous()}>Previous Example</button>
+        <button on:click={() => next()}>Next Example</button>
     </div>
-{/if}
+</div>
 
 
 
@@ -46,7 +58,8 @@
         margin: 5px;
         font-family: 'CozetteVector';
         font-size: 16px;
-        background: rgba(0,0,0,.6);
+        background: rgba(0,0,0,.8);
+        color: white;
 
     }
     p {

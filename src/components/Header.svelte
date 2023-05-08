@@ -1,8 +1,12 @@
 <script>
-	import wordmark from "$svg/wordmark.svg";
+	    import Tip from "$components/helpers/Tip.svelte"
+
 </script>
 
 <header>
+	<div class="tip-top">
+		<Tip href={"https://donate.stripe.com/3cs2bw4lte8wgmc5kn"} />
+	</div>
 	<div class="wordmark">
 		<a href="/" aria-label="The Pudding">
 			The Pudding
@@ -12,7 +16,13 @@
 </header>
 
 <style>
-
+    .tip-top {
+        position: absolute;
+        right: 1rem;
+        left: auto;
+        top: 1rem;
+        z-index: 10000;
+    }
 	header {
 		position: absolute;
 		left: 0;

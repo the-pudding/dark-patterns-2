@@ -20,6 +20,7 @@
     import Footer from "$components/Footer.svelte";
     import { onMount, setContext, getContext } from "svelte";
     import cueData from "$data/cues.js";
+    import Tip from "$components/helpers/Tip.svelte"
 
     export let sesameSprites;
     export let copy;
@@ -120,7 +121,7 @@
         </div>
     </div>
 
-    <div class:preloaded class="loading-header"><h3>Loading...</h3></div>
+    <div class:preloaded class="loading-header"><p>Loading...</p></div>
 
     {#if preloaded}
     <ScrollyHelper bind:value={scrollValue}>
@@ -133,7 +134,8 @@
             >
                 {#if block == "intro"}
                     <Header />
-                    <Scrolly {copy} {cueData} id={copy[block][0]["id"]} {sesameSprites} copySteps={copy[block]} />
+
+                    <Scrolly {preloaded} {copy} {cueData} id={copy[block][0]["id"]} {sesameSprites} copySteps={copy[block]} />
                     <div
                     id="detect-start"
                     use:inView
@@ -235,6 +237,23 @@
                                         {#if sectionBlock.id == "third" && n == 2}
                                             <Shame {blockId} />
                                         {/if}
+                                        {#if sectionBlock.id == "fifth" && n == 2}
+                                            
+                                            <div class="tip-bottom">
+                                                <p>Like this story? Consider directly supporting the author.
+                                                </p>
+                                                <Tip text={"Send a tip to Caroline Sinders"} href={"https://donate.stripe.com/3cs2bw4lte8wgmc5kn"} />
+
+                                                <div class="cross">
+                                                    <p><a rel="noreferrer" href="https://thepuddingmail.substack.com/" target="_blank">Sign up for The Pudding&rsquo;s newsletter</a> for more stories like this one.</p>
+                                                </div>
+                                            </div>
+
+
+
+
+                                            <Footer />
+                                        {/if}
                                     {/if}
                                 {/each}
                             {:else if sectionBlock["type"] == "graphic-company-slider"}
@@ -260,7 +279,6 @@
             </div>
         {/each}
     </ScrollyHelper> 
-    <Footer />
     {/if}
 </div>
 
@@ -277,8 +295,25 @@
         text-align: center;
         font-size: 18px;
         margin-top: 0px;
-        margin-bottom: 35vh;
     }
+
+    .cross {
+        margin-top: 100px;
+    }
+
+    .tip-bottom {
+        width: calc(100% - 20px);
+        margin: 0 auto;
+        text-align: left;
+        max-width: 550px;
+        margin-bottom: 200px;
+        margin-top: 100px;
+    }
+    .tip-bottom p {
+        font-size: 24px;
+        font-family: var(--sans-display);
+    }
+
     .experiment .happened p {
         text-align: center;
         margin: 50px auto;
@@ -320,11 +355,21 @@
 
     .loading-header {
         height: 100vh;
-        width: 100vw;
+        width: 100%;
         background-color: #f4d2cb;
         display: flex;
         justify-content: center;
         flex-direction: column;
+    }
+
+    .loading-header {
+        font-family: "CozetteVector";
+        font-size: 20px;
+        text-align: center;
+        max-width: 600px;
+        margin: 0 auto;
+        margin-top: 50px;
+        width: calc(100% - 20px);
     }
 
     
@@ -365,17 +410,19 @@
         background-color: #FBD6CD;
         max-width: 100%;
         color: black;
-        width: 100vw;
+        width: 100%;
         position: relative;
     }
 
     .titleinView .go-dark {
         opacity: 0;
+        transform: translate3d(0,0,0);
     }
 
     .vimeoinView .dungeon {
         opacity: 1;
         background: #011a18;
+        pointer-events: none;
     }
 
     .experimentinView.wrapper, .happenedinView.wrapper, .darkTypesinView {
@@ -414,12 +461,12 @@
     .title {
         padding-bottom: 45vh;
         overflow: hidden;
-        width: 100vw;
+        width: 100%;
     }
 
     .experiment {
         color: black;
-        width: 100vw;
+        width: 100%;
         overflow: hidden;
         margin-bottom: 200px;
     }
@@ -459,6 +506,7 @@
         opacity: 0;
         z-index: 1;
         transition: opacity .5s;
+        pointer-events: none;
     }
 
     .grid-life {
@@ -483,6 +531,7 @@
         opacity: 1;
         background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #151517 100%);
         position: fixed;
+        pointer-events: none;
     }
 
     .hed {
@@ -493,6 +542,8 @@
     .hed::selection {
         color: white;
     }
+
+
 
     .preloaded {
         display: none;

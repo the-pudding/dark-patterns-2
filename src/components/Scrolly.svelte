@@ -15,7 +15,7 @@
     export let cueData;
     export let sesameSprites;
     export let copy;
-
+    export let preloaded;
 
     let sticky;
     let test;
@@ -50,9 +50,13 @@
 
         <div
             id={step.id}
-            class="step {stepId}"
+            class="step {stepId} {i == 0 ? "first" : ''}"
             class:active
         >
+
+            {#if i == 0}
+                <p>Scroll to Continue</p>
+            {/if}
             {#if i == 1}
                 <div
                     use:inView={{ progress: true }}
@@ -61,7 +65,7 @@
                     {#each copy["companies"].filter(d => d.id != "null") as image}
                         <div class="company-image" style="margin-left:{Math.random()*90}%; width:{image.w}px">
                             <FinderWindow />
-                            {#if active}
+                            {#if preloaded}
                                 <img src="assets/{image.id}.png" alt="{image.id} logo"/>
                             {/if}
                         </div>
@@ -73,6 +77,8 @@
 </Scrolly>
 
 <style>
+
+
 
     .landscape, .pink {
         width: 100%;
@@ -155,8 +161,26 @@
         overflow: hidden;
     }
 
-    .step:first-of-type {
-		margin-top: -50vh;
-        min-height: 50vh;
-	}
+    .first {
+        margin-top: -100vh;
+        min-height: 100vh;
+        display: flex;
+        justify-content: flex-end;
+        flex-direction: column;
+        opacity: .2;
+        transition: opacity .5s;
+    }
+
+    .first.active {
+        opacity: 1;
+    }
+
+    .first p {
+        margin-bottom: 150px;
+        text-align: center;
+        font-size: 24px;
+        font-family: 'CozetteVector',"sans";
+        color: rgba(0,0,0,.7);
+    }
+
 </style>

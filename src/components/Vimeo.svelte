@@ -35,6 +35,11 @@
     let mounted = false;
     let explainerEl;
 
+    let vimeoFreeEl;
+    let vimeoExplainerEl;
+
+    let loaded = false;
+
     let vimeo_free;
     let vimeo_explainer;
     
@@ -53,10 +58,45 @@
         return d.key
     });
 
+    $: if(blockId == "vimeo"){
+        if(!loaded){
+            loadVideos();
+        }
+    }
+
     const toPercent = (a, b = 1) => `${(a / b) * 100}%`;
 
+    function loadVideos(){
+        loadVideo(vimeoFreeEl,"vimeo_free");
+        loadVideo(vimeoExplainerEl,"vimeo_explainer");
+        loaded = true;
+    }
+
+    async function loadVideo(videoEl,name){
+        // clearTimeout(videoTimeout);
+        videoEl.currentTime = 0;
+        let src = `assets/${name}.mp4`;
+        const request = new XMLHttpRequest();
+        request.open("GET", src, true);
+        request.responseType = "blob";
+        request.onload = function () {
+            if (this.status === 200) {
+                const videoBlob = this.response;
+                const videoUrl = URL.createObjectURL(videoBlob);
+                videoEl.src = videoUrl;
+                videoEl.currentTime = 0;
+                
+                // videoTimeout = setTimeout(function() {
+                //     videoEl.play();
+                // }, 1000)
+            }
+        };
+        request.send();
+    }
+
+
+
     onMount(() => {
-        console.log(ariaVideoKey.get("New York Times"))
         vimeo_free = ariaVideoKey.get("Vimeo Free");
         vimeo_explainer = ariaVideoKey.get("Vimeo Explainer");
         mounted = true;
@@ -92,7 +132,7 @@
         >
             {#each step.body as bodyText, n}
                 <p class="running-text  {i} {n}">{@html bodyText.value}</p>
-                {#if i == 0 && n == 1 && blockId == "vimeo"}
+                {#if i == 0 && n == 1}
                     <div class="vimeo-image-wrapper">
                         <img src="assets/vimeo_1.png" 
                             alt="Vimeo&rsquo;s pricing plans, which frame the payments as monthly, but are actually annual contracts. The month-to-month plans are obscured in the design behind a small drop-down menu."
@@ -102,7 +142,7 @@
                         </div>
                     </div>
                 {/if}
-                {#if i == 1 && n == 0 && blockId == "vimeo"}
+                {#if i == 1 && n == 0}
                     <div class="vimeo-explain-wrapper">
                         Vimeo&rsquo;s Dark Patterns when Canceling
                         <video 
@@ -111,7 +151,7 @@
                             playsinline
                             webkit-playsinline="webkit-playsinline"
                             src="assets/vimeo_explainer.mp4"
-                            bind:this={explainerEl}
+                            bind:this={vimeoExplainerEl}
                             bind:currentTime={currentTimeTwo} bind:duration={durationTwo}
                             aria-label="{vimeo_explainer}"
                         >
@@ -124,12 +164,13 @@
                     </div>
                 {/if}
 
-                {#if i == 2 && n == 2 && blockId == "vimeo"}
+                {#if i == 2 && n == 2}
                     <div class="vimeo-free-wrapper">
                         Where Vimeo hides its free version
                         <video muted loop
                             playsinline
                             autoplay
+                            bind:this={vimeoFreeEl}
                             webkit-playsinline="webkit-playsinline"
                             src="assets/vimeo_free.mp4" bind:currentTime bind:duration
                             aria-label="{vimeo_free}"

@@ -1,12 +1,12 @@
 Company,Refunded Payments,Free Trial Ending Email Reminder ,Money Lost
 Netflix,FALSE,FALSE,$15.49
-Daily Harvest,TRUE,FALSE,0
+Daily Harvest,FALSE,FALSE,0
 Ancestry.com,FALSE,FALSE,$24.99
 Vimeo,FALSE,FALSE,$161.55
 Adobe,TRUE,FALSE,0
 Paramount Plus,FALSE,FALSE,$11.99
-Savage Fenty,TRUE,FALSE,0
-Amazon Subscribe and Save,TRUE,FALSE,$0.57
+Savage Fenty,FALSE,FALSE,0
+Amazon Subscribe and Save,FALSE,FALSE,$0.57
 Deliveroo Silver plus,FALSE,FALSE,$9.96
 Express VPN,FALSE,FALSE,$12.95
 Hulu Disney Bundle,FALSE,FALSE,$13.99

@@ -243,6 +243,7 @@ onMount(() => {
     {#if ["floor","cloud","land"].indexOf(name) > -1}
       <div
         class="sprite {name}"
+        role="img" aria-label="ground of pixel art"
         style="
         width: {["floor","land"].indexOf(name) > -1 ? "200vw" : width};
         background-image: url({bgImage});
@@ -258,6 +259,7 @@ onMount(() => {
         class="sprite"
         data-wrapper={wrapper}
         data-scale={scale}
+        role="img" aria-label="image of {name}"
         in:fade={{ duration: 1000 }} out:fade={{ duration: 1000 }}
         style="
             background-image: url({bgImage});

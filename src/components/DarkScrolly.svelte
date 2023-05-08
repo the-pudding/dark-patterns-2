@@ -93,7 +93,7 @@
     <div class="montage video-wrapper">
         {#if imageOverride.indexOf(selectedCompany) > -1}
             <img
-                src="assets/{selectedCompany.toLowerCase().replace(" ","_").toLowerCase().replace(" ","_")}_pattern.png"
+                src="assets/{selectedCompany.toLowerCase().replace(" ","_").toLowerCase().replace(" ","_")}_pattern.jpg"
                 alt="image showing emails from {selectedCompany} after unsubscribing"
             >
         {/if}

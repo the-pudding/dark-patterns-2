@@ -14,9 +14,14 @@
 	];
 
 	const { title, description, url, keywords } = copy;
+
 	setContext("copy", copy);
 	setContext("data", data.data);
+
+
+	let hed = copy["title"][0]["social"];
+	let dek = copy["title"][1]["social"];
 </script>
 
-<Meta {title} {description} {url} {preloadFont} {keywords} />
+<Meta {hed} {dek} {url} {preloadFont} {keywords} />
 <Index />

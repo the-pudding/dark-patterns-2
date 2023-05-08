@@ -4,10 +4,8 @@
 
 	let localURL;
 	let stories = [];
-
 	const v = Date.now();
 	const url = `https://pudding.cool/assets/data/stories.json?v=${v}`;
-
 	const links = [
 		{ name: "about", url: "https://pudding.cool/about" },
 		{ name: "facebook", url: "https://facebook.com/pudding.viz/" },
@@ -21,7 +19,6 @@
 		{ name: "newsletter", url: "https://thepuddingmail.substack.com" },
 		{ name: "rss", url: "https://pudding.cool/feed/index.xml" }
 	];
-
 	onMount(async () => {
 		localURL = window.location.href;
 		const response = await fetch(url);
@@ -30,11 +27,15 @@
 	});
 </script>
 
-<footer>
+<footer
+>
 	<section class="stories">
 		{#each stories as { hed, url, image }}
+			{@const href = url.startsWith("http")
+				? url
+				: `https://pudding.cool/${url}`}
 			<div class="story">
-				<a href="https://pudding.cool/{url}">
+				<a {href}>
 					<img
 						src="https://pudding.cool/common/assets/thumbnails/640/{image}.jpg"
 						alt="thumbnail"
@@ -69,6 +70,7 @@
 	</section>
 </footer>
 
+
 <style>
 	footer {
 		font-family: "CozetteVector","sans";
@@ -78,7 +80,7 @@
 	a,
 	a:visited,
 	a:hover {
-		color: var(--color-bg);
+		color: var(--color-fg);
 	}
 
 	.stories {
@@ -99,7 +101,7 @@
 	.story a {
 		display: block;
 		font-weight: 700;
-		text-decoration: none;
+		text-decoration: underline;
 		border: none;
 	}
 

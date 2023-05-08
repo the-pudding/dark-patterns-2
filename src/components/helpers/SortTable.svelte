@@ -7,7 +7,7 @@
 	export let columns = []; // [{ label, prop, sort = true, type = "text", dir = undefined, sortFn: undefined }];
 	export let blockId;
 	export let copy;
-	
+
 	let width = 150;
 	
 	const dispatch = createEventDispatcher();
@@ -101,13 +101,11 @@
 								<span>{r[prop]}</span>
 							{:else}
 								<div class="img-wrapper">
-									{#if blockId == "results"}
-										<img
-											alt="{companyLookup.get(r[prop]).id} logo" 
-											class={companyLookup.get(r[prop]).id}
-											src="assets/{companyLookup.get(r[prop]).id}.png"
-										>
-									{/if}
+									<img
+										alt="{companyLookup.get(r[prop]).id} logo" 
+										class={companyLookup.get(r[prop]).id}
+										src="assets/{companyLookup.get(r[prop]).id}.png"
+									>
 								</div>
 							{/if}
 							
